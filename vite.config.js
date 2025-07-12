@@ -5,5 +5,8 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  optimizeDeps: {
+    exclude: ['lucide-react'],
+  },
   base: process.env.VITE_BASE_URL || '/tejstarter-new/',
 })
