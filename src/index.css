@@ -1,7 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind base;
-
+@tailwind utilities;
+@import "tailwindcss";
 @layer base {
   body {
     font-family: 'Inter', sans-serif;
