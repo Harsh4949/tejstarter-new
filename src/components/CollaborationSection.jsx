@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BookOpen, Briefcase, Users, Building } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
-import Lottie from 'lottie-react';
-import teamAnimation from '../lottie/team.json';
+// import Lottie from 'lottie-react';
+// import teamAnimation from '../lottie/team.json'; // File doesn't exist yet
 
 const CollaborationSection = () => {
   const [count, setCount] = useState(0);
@@ -143,11 +143,11 @@ const CollaborationSection = () => {
               className="relative"
             >
               <div className="cursor-default">
-                <Lottie
-                  animationData={teamAnimation}
-                  loop
-                  className="w-full h-full"
-                />
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="w-64 h-64 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center animate-pulse">
+                    <Users className="h-24 w-24 text-white animate-bounce" />
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>

@@ -6,7 +6,7 @@ import CollaborationPage from './pages/CollaborationPage';
 import About from './components/About';
 import Launchpad from './components/Launch';
 import LoginPage from './pages/Login';
-import Signup from './pages/Signup';
+import Signup from './pages/signup';
 import Homepage from './components/Home';
 
 function App() {
