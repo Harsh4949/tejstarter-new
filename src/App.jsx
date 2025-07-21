@@ -6,6 +6,7 @@ import CollaborationPage from './pages/CollaborationPage';
 import About from './components/About';
 import Launchpad from './components/Launch';
 import LoginPage from './pages/Login';
+import Signup from './pages/Signup';
 import Homepage from './components/Home';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/launchpad" element={<Launchpad />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </main>
       <Footer />
