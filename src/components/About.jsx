@@ -14,6 +14,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import SEO from './SEO';
 
 const About = () => {
   const scrollToSection = (sectionId) => {
@@ -32,8 +33,36 @@ const About = () => {
 
   const hoverText = "hover:text-indigo-600 hover:scale-105 transition duration-300 ease-in-out";
 
+  const aboutPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About TejStarter",
+    "description": "Learn about TejStarter's mission to connect college students with startup opportunities and foster entrepreneurship in education",
+    "url": "https://tejstarter.com/about",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "TejStarter",
+      "description": "Dynamic platform founded by passionate entrepreneurs to bridge the gap between academic learning and real-world innovation",
+      "foundingDate": "2024",
+      "founder": {
+        "@type": "Person",
+        "name": "TejStarter Team"
+      },
+      "mission": "To foster collaboration, innovation, and entrepreneurship among college students",
+      "vision": "Creating a global network of student innovators and entrepreneurs"
+    }
+  };
+
   return (
     <div>
+      <SEO 
+        title="About TejStarter - Mission, Vision & Team | Student Collaboration Platform"
+        description="Discover TejStarter's journey to revolutionize student entrepreneurship. Learn about our mission to connect college students with startup opportunities, our innovative collaboration model, and how we're building India's largest student innovation network."
+        keywords="about tejstarter, student entrepreneurship mission, college collaboration platform, startup education, innovation in education, student startup incubator, entrepreneurship for students India"
+        url="/about"
+        type="website"
+        schemaData={aboutPageSchema}
+      />
       {/* Hero Section */}
       <motion.section
         className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8"

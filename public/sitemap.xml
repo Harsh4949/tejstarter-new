@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://tejstarter.com/</loc>
+    <lastmod>2025-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- About Page -->
+  <url>
+    <loc>https://tejstarter.com/about</loc>
+    <lastmod>2025-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Collaboration Page -->
+  <url>
+    <loc>https://tejstarter.com/collaboration</loc>
+    <lastmod>2025-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Launchpad Page -->
+  <url>
+    <loc>https://tejstarter.com/launchpad</loc>
+    <lastmod>2025-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Login Page -->
+  <url>
+    <loc>https://tejstarter.com/login</loc>
+    <lastmod>2025-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Signup Page -->
+  <url>
+    <loc>https://tejstarter.com/signup</loc>
+    <lastmod>2025-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Stories Page -->
+  <url>
+    <loc>https://tejstarter.com/stories</loc>
+    <lastmod>2025-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, Rocket } from 'lucide-react';
+import SEO from '../components/SEO';
 // import Lottie from 'lottie-react';
 // import loginAnimation from '../lottie/login.json.json'; // File doesn't exist yet
 
@@ -34,8 +35,24 @@ const Login = () => {
     }
   };
 
+  const loginPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Login to TejStarter",
+    "description": "Sign in to your TejStarter account to access collaboration opportunities, startup projects, and mentorship programs",
+    "url": "https://tejstarter.com/login"
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center px-6 py-10">
+      <SEO 
+        title="Login to TejStarter - Access Your Student Collaboration Account"
+        description="Sign in to your TejStarter account to access exclusive collaboration opportunities, startup projects, mentorship programs, and connect with 1000+ students across India."
+        keywords="login tejstarter, student account login, startup platform login, collaboration platform signin, student entrepreneur login"
+        url="/login"
+        type="website"
+        schemaData={loginPageSchema}
+      />
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 bg-white shadow-2xl rounded-3xl overflow-hidden">
         {/* Left Side Lottie Animation */}
         <div className="hidden lg:flex items-center justify-center bg-gradient-to-br from-indigo-100 via-blue-100 to-white p-8">

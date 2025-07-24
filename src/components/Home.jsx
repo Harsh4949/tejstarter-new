@@ -16,6 +16,7 @@ import {
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import tejasLogo from '../assets/tej_logo.png';
+import SEO from './SEO';
 
 const features = [
   { icon: <Handshake size={48} />, title: "Flexible Contributions", desc: "Choose between payments or equity shares to participate in innovative projects." },
@@ -92,9 +93,63 @@ const collaborationOpportunities = [
     color: "orange"
   }
 ];
+
+const homePageSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "TejStarter",
+  "url": "https://tejstarter.com",
+  "logo": "https://tejstarter.com/src/assets/tej_logo.png",
+  "description": "India's premier platform connecting college students with startup opportunities and entrepreneurship programs",
+  "slogan": "Where Innovation Meets Collaboration",
+  "foundingDate": "2024",
+  "numberOfEmployees": "10-50",
+  "industry": "Education Technology, Startups, Entrepreneurship",
+  "areaServed": {
+    "@type": "Place",
+    "name": "India and Africa"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "areaServed": "IN",
+    "availableLanguage": "English"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Student Programs",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Student Collaboration Platform",
+          "description": "Platform for students to collaborate on startup projects"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Mentorship Program",
+          "description": "Industry mentorship for student entrepreneurs"
+        }
+      }
+    ]
+  }
+};
+
 function App() {
   return (
     <div className="bg-white text-gray-800 overflow-x-hidden">
+      <SEO 
+        title="TejStarter - India's Premier Student Collaboration Platform for Startups & Entrepreneurship"
+        description="Join 1000+ students across 100+ institutions in India's leading platform for startup collaboration. Get industry mentorship, work on real projects, and build your entrepreneurial journey while studying. Flexible contributions, expert guidance, global reach."
+        keywords="student collaboration platform, college startups India, entrepreneurship for students, student innovation, startup incubator for colleges, industry mentorship, project collaboration, student entrepreneurs, educational technology India, college partnerships, startup ecosystem, business incubation, student networking, career development"
+        url="/"
+        type="website"
+        schemaData={homePageSchema}
+      />
        {/* Hero Section */}
       <section className="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50 flex items-center justify-center px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.1),transparent_50%)] pointer-events-none"></div>

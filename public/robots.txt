@@ -1,0 +1,45 @@
+User-agent: *
+Allow: /
+
+# Important pages
+Allow: /about
+Allow: /collaboration
+Allow: /launchpad
+Allow: /signup
+Allow: /login
+Allow: /stories
+
+# Disallow admin or private areas (if any)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /node_modules/
+
+# Allow all search engines to crawl images
+Allow: /src/assets/
+Allow: *.png
+Allow: *.jpg
+Allow: *.jpeg
+Allow: *.gif
+Allow: *.svg
+Allow: *.webp
+
+# Sitemap location
+Sitemap: https://tejstarter.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
