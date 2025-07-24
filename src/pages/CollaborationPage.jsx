@@ -8,8 +8,10 @@ import CollaborationCTA from '../components/CollaborationCTA';
 const CollaborationPage = () => {
   return (
     <div className="min-h-screen bg-white">
-      <CollaborationSection />
       <OpportunitiesSection />
+     
+      <CollaborationSection />
+      
       <PartnerCompanies />
       <PartnerInstitutions />
       <CollaborationCTA />

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User, Rocket } from 'lucide-react';
-// import Lottie from 'lottie-react';
-// import signupAnimation from '../lottie/signup.json.json'; // File doesn't exist yet
+import Lottie from 'lottie-react';
+import signupAnimation from '../lottie/signup.json.json';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -101,15 +101,9 @@ const Signup = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center px-6 py-10">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 bg-white shadow-2xl rounded-3xl overflow-hidden">
-        {/* Left - Animation Placeholder */}
+        {/* Left - Animation */}
         <div className="hidden lg:flex items-center justify-center bg-gradient-to-br from-indigo-100 via-blue-100 to-white p-8">
-          <div className="flex flex-col items-center justify-center text-center">
-            <div className="w-64 h-64 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mb-6 animate-pulse">
-              <User className="h-24 w-24 text-white animate-bounce" />
-            </div>
-            <h3 className="text-2xl font-bold text-gray-700 mb-2">Join TejStarter</h3>
-            <p className="text-gray-500">Start your journey with us</p>
-          </div>
+          <Lottie animationData={signupAnimation} loop className="h-[450px] w-full -mt-30" />
         </div>
 
         {/* Right - Form */}

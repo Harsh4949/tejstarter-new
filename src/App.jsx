@@ -6,22 +6,26 @@ import CollaborationPage from './pages/CollaborationPage';
 import About from './components/About';
 import Launchpad from './components/Launch';
 import LoginPage from './pages/Login';
-// import Signup from './pages/Signup';   //error
+import SignupPage from './pages/Signup';
 import Homepage from './components/Home';
 
 function App() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <Header />
-      <main className="flex-grow">
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/collaboration" element={<CollaborationPage />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/launchpad" element={<Launchpad />} />
-          <Route path="/login" element={<LoginPage />} />
-          {/* <Route path="/signup" element={<Signup />} /> */}
-        </Routes>
+        <main className="flex-grow">
+
+     <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/collaboration" element={<CollaborationPage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/launchpad" element={<Launchpad />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/stories" element={<div>Stories Page</div>} />
+        <Route path="*" element={<div>404: Page not found</div>} />
+      </Routes>
+
       </main>
       <Footer />
     </div>

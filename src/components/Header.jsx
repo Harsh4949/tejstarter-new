@@ -10,7 +10,7 @@ const Header = () => {
     { id: 'home', label: 'Home', path: '/' },
     { id: 'launchpad', label: 'Launchpad', path: '/launchpad' },
     { id: 'about', label: 'About', path: '/about' },
-    { id: 'collaboration', label: 'College Collaboration', path: '/collaboration' },
+    { id: 'collaboration', label: ' Collaboration', path: '/collaboration' },
     { id: 'stories', label: 'Stories', path: '/stories' }
   ];
 

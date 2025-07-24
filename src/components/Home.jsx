@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Rocket,
@@ -11,10 +10,12 @@ import {
   CheckCircle,
   Star,
   ArrowRight,
-  Clock
+  Clock,
+  Building
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import tejasLogo from '../assets/tej_logo.png';
 
 const features = [
   { icon: <Handshake size={48} />, title: "Flexible Contributions", desc: "Choose between payments or equity shares to participate in innovative projects." },
@@ -53,6 +54,44 @@ const testimonials = [
   }
 ];
 
+const collaborationOpportunities = [
+  {
+    icon: Building,
+    title: "Industry Partners",
+    description: "Connect with leading companies for real-world projects and placement opportunities.",
+    benefits: [
+      "Access to industry expertise",
+      "Live project experience", 
+      "Placement opportunities",
+      "Professional network building"
+    ],
+    color: "blue"
+  },
+  {
+    icon: GraduationCap,
+    title: "Educational Institutions",
+    description: "Partner with colleges and universities to enhance student learning and career prospects.",
+    benefits: [
+      "Practical skill development",
+      "Industry exposure",
+      "Entrepreneurship guidance",
+      "Research collaboration"
+    ],
+    color: "teal"
+  },
+  {
+    icon: Users,
+    title: "Startup Ecosystem",
+    description: "Join a vibrant community of innovators, mentors, and entrepreneurs.",
+    benefits: [
+      "Mentorship programs",
+      "Resource sharing",
+      "Networking events",
+      "Funding opportunities"
+    ],
+    color: "orange"
+  }
+];
 function App() {
   return (
     <div className="bg-white text-gray-800 overflow-x-hidden">
@@ -76,7 +115,7 @@ function App() {
               className="inline-flex items-center bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium mb-6"
             >
               <Rocket className="w-4 h-4 mr-2" />
-              #1 Student Startup Platform
+              #1  Startup Platform
             </motion.div>
             
             <motion.h1
@@ -128,7 +167,7 @@ function App() {
                 className="bg-white rounded-3xl shadow-2xl p-8 relative z-10"
               >
                 <img 
-                  src="https://media.nesta.org.uk/images/rawpixel-558596-unsplash.max-1200x600.jpg" 
+                  src={tejasLogo}
                   alt="Startup Collaboration" 
                   className="w-full h-80 object-cover rounded-2xl"
                 />
@@ -207,7 +246,7 @@ function App() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              About <span className="text-indigo-600">TEJSTARTER</span>
+              What is <span className="text-indigo-600">TEJSTARTER ?</span>
             </h2>
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
               Founded by passionate entrepreneurs, TEJSTARTER turns ideas into ventures through mentorship, resources, and real collaboration. We believe every student has the potential to create something extraordinary.
@@ -324,10 +363,10 @@ function App() {
               className="text-center"
             >
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                "Every struggle carries a spark. For TEJSTARTER, that spark was the journey of Tejas Pawar."
+                "Every struggle carries a spark. For TEJSTARTER, that spark was the journey of Mr. Tejas Pawar."
               </p>
               <p className="text-gray-600 mb-8 leading-relaxed">
-                Raised in rural Maharashtra, Tejas faced shifting goals and setbacks. During COVID, working jobs and learning life lessons, he realized:
+                Raised in rural Maharashtra,Mr. Tejas faced shifting goals and setbacks. During COVID, working jobs and learning life lessons, he realized:
               </p>
               <div className="bg-indigo-50 p-6 rounded-2xl mb-8 border border-indigo-100">
                 <p className="text-indigo-700 italic text-xl font-medium">
@@ -335,7 +374,7 @@ function App() {
                 </p>
               </div>
               <p className="text-indigo-600 font-semibold text-lg">
-                "TEJSTARTER is for all of us who want to begin, but don't know how." — Tejas Pawar
+                "TEJSTARTER is for all of us who want to begin, but don't know how." — Mr. Tejas Pawar
               </p>
             </motion.div>
           </div>
@@ -404,28 +443,86 @@ function App() {
           </div>
         </div>
       </section>
+{/* Replace Old College Collaboration Section with New Collaboration Opportunities Section */}
+      <section className="relative py-20 bg-gradient-to-br from-blue-50 via-white to-blue-100 overflow-hidden">
+        <style>{`
+          .opportunity-card h3,
+          .opportunity-card p,
+          .opportunity-card span {
+            color: #000000;
+            transition: color 0.3s ease;
+          }
+          .opportunity-card:hover h3,
+          .opportunity-card:hover p,
+          .opportunity-card:hover span {
+            color: #1d4ed8;
+          }
+        `}</style>
 
-      {/* College Collaboration Section */}
-      <section className="py-24 px-6 bg-gradient-to-r from-blue-50 to-indigo-50">
-        <div className="max-w-6xl mx-auto text-center">
+        {/* Blurred Circles */}
+        <div className="absolute top-[-60px] right-[-60px] w-[200px] h-[200px] bg-blue-200 rounded-full opacity-30 blur-3xl z-0"></div>
+        <div className="absolute bottom-[-60px] left-[-60px] w-[250px] h-[250px] bg-blue-100 rounded-full opacity-30 blur-3xl z-0"></div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            className="text-center mb-16"
           >
-            <GraduationCap className="w-16 h-16 mx-auto mb-6 text-indigo-600" />
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">College & Institutional Collaboration</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8 leading-relaxed">
-              Partnered with 100+ colleges across India, TEJSTARTER brings startup exposure, mentorship, and real-world projects to campuses, empowering students to gain experience and convert ideas into real impact.
-            </p>
-            <div className="bg-white p-8 rounded-3xl shadow-lg max-w-2xl mx-auto">
-              <h3 className="text-2xl font-bold text-indigo-800 mb-4">Helping Students Launch Careers</h3>
-              <p className="text-gray-700">
-                TEJSTARTER empowers students to gain experience, start ventures, and convert ideas into real impact — learning innovation by doing.
-              </p>
+            <div className="bg-blue-100 p-3 rounded-lg w-fit mx-auto mb-8 shadow-md">
+              <Users className="h-8 w-8 text-blue-600" />
             </div>
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-6">
+              Collaboration Opportunities
+            </h2>
+            <p className="text-xl text-gray-800 max-w-4xl mx-auto leading-relaxed">
+              Join our growing ecosystem of partners and be part of the innovation journey. We offer 
+              multiple collaboration pathways tailored to different organizational needs.
+            </p>
           </motion.div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {collaborationOpportunities.map((opportunity, index) => {
+              const Icon = opportunity.icon;
+              const colorClasses = {
+                blue: "bg-blue-100 text-blue-600",
+                teal: "bg-teal-100 text-teal-600", 
+                orange: "bg-orange-100 text-orange-600"
+              };
+
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.2 }}
+                  className="opportunity-card bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-all cursor-pointer"
+                >
+                  <div className={`${colorClasses[opportunity.color]} p-4 rounded-lg w-fit mb-6`}>
+                    <Icon className="h-8 w-8" />
+                  </div>
+
+                  <h3 className="text-xl font-bold mb-4">
+                    {opportunity.title}
+                  </h3>
+
+                  <p className="mb-6 leading-relaxed text-gray-700">
+                    {opportunity.description}
+                  </p>
+
+                  <div className="space-y-3">
+                    {opportunity.benefits.map((benefit, benefitIndex) => (
+                      <div key={benefitIndex} className="flex items-center space-x-3">
+                        <CheckCircle className="h-5 w-5 text-green-600" />
+                        <span className="text-sm text-gray-700">{benefit}</span>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
