@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import Lottie from 'lottie-react';
-import rocketAnimation from '../lottie/rocketLaunch.json';
+// import Lottie from 'lottie-react';
+// import rocketAnimation from '../lottie/rocketLaunch.json'; // File doesn't exist yet
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { BookOpen, Briefcase, Users } from 'lucide-react';

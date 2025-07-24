@@ -6,7 +6,7 @@ import CollaborationPage from './pages/CollaborationPage';
 import About from './components/About';
 import Launchpad from './components/Launch';
 import LoginPage from './pages/Login';
-// import SignupPage from './pages/Signup';
+import Signup from './pages/Signup';
 import Homepage from './components/Home';
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/launchpad" element={<Launchpad />} />
         <Route path="/login" element={<LoginPage />} />
-        {/* <Route path="/signup" element={<SignupPage />} /> */}
+        <Route path="/signup" element={<Signup />} />
         <Route path="/stories" element={<div>Stories Page</div>} />
         <Route path="*" element={<div>404: Page not found</div>} />
       </Routes>

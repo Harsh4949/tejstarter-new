@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, Rocket } from 'lucide-react';
-import Lottie from 'lottie-react';
-import loginAnimation from '../lottie/login.json.json'; // ✅ Adjust path if needed
+// import Lottie from 'lottie-react';
+// import loginAnimation from '../lottie/login.json.json'; // File doesn't exist yet
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });

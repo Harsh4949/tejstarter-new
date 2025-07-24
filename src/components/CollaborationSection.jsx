@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { BookOpen, Briefcase, Users, Building } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
-import Lottie from 'lottie-react';
-import teamAnimation from '../lottie/team.json';
+// import Lottie from 'lottie-react';
+// import teamAnimation from '../lottie/team.json'; // File doesn't exist yet
 
 const CollaborationSection = () => {
   const [count, setCount] = useState(0);
