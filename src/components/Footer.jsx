@@ -136,9 +136,7 @@ const Footer = () => {
           <div className="mt-10 text-center border-t border-gray-300 pt-6">
             <p className="text-gray-600 text-sm mb-3">
               Developed by{' '}
-              <span className="text-blue-700 font-semibold hover:underline cursor-pointer">Sakib Attar</span>,{' '}
-              <span className="text-blue-700 font-semibold hover:underline cursor-pointer">Harshwardhan Patil</span>,{' '}
-              <span className="text-blue-700 font-semibold hover:underline cursor-pointer">Parth Jadhav</span>
+              <span className="text-black font-semibold hover:underline cursor-pointer">TejStarter & Team</span>
             </p>
 
             <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500 mb-2">
