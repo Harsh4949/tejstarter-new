@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { BookOpen, Briefcase, Users } from 'lucide-react';
+import SEO from './SEO';
 
 export default function RocketScene() {
   const rocketRef = useRef();
@@ -19,8 +20,33 @@ export default function RocketScene() {
     return () => clearTimeout(timer);
   }, []);
 
+  const launchpadPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Launchpad - Start Your Journey | TejStarter",
+    "description": "Launch your startup journey with TejStarter's comprehensive platform for student entrepreneurs",
+    "url": "https://tejstarter.com/launchpad",
+    "mainEntity": {
+      "@type": "Service",
+      "name": "Startup Launchpad",
+      "provider": {
+        "@type": "Organization",
+        "name": "TejStarter"
+      },
+      "serviceType": "Entrepreneurship Launch Platform"
+    }
+  };
+
   return (
     <div className="w-full min-h-screen flex flex-col lg:flex-row overflow-hidden bg-gradient-to-br from-indigo-200 via-white to-blue-300 relative">
+      <SEO 
+        title="Launchpad - Start Your Startup Journey | TejStarter"
+        description="Launch your entrepreneurial journey with TejStarter's comprehensive platform. Access startup resources, mentorship programs, and collaboration opportunities designed for college students and young entrepreneurs."
+        keywords="startup launchpad, student entrepreneurship, launch startup, entrepreneurship resources, startup mentorship, student innovation platform, business launch"
+        url="/launchpad"
+        type="website"
+        schemaData={launchpadPageSchema}
+      />
       {/* Background Stars */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 z-0" />
 
@@ -31,13 +57,13 @@ export default function RocketScene() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1 }}
       >
-        <Lottie
-          lottieRef={rocketRef}
-          animationData={rocketAnimation}
-          loop
-          autoplay={false}
-          style={{ maxHeight: 550, width: '100%', maxWidth:550}}
-        />
+        <div className="h-[550px] w-full max-w-[550px] flex items-center justify-center">
+          <div className="w-80 h-80 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center animate-pulse">
+            <svg className="h-32 w-32 text-white animate-bounce" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"/>
+            </svg>
+          </div>
+        </div>
       </motion.div>
 
       {/* RIGHT: Content Panel */}
