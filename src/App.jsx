@@ -7,13 +7,14 @@ import About from './components/About';
 import Launchpad from './components/Launch';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Stories from './pages/Stories';
 import Homepage from './components/Home';
 
 function App() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <Header />
-        <main className="flex-grow">
+        <main className="flex-grow pt-20 lg:pt-20">{/* Added padding for fixed header */}
 
      <Routes>
         <Route path="/" element={<Homepage />} />
@@ -23,7 +24,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signin" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/stories" element={<div>Stories Page</div>} />
+        <Route path="/stories" element={<Stories />} />
         <Route path="*" element={<div style={{padding: '2rem', fontSize: '1.5rem', color: 'red'}}>404: Page not found</div>} />
       </Routes>
 

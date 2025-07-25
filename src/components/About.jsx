@@ -21,14 +21,63 @@ const About = () => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const fadeInRTL = {
-    hidden: { opacity: 0, x: 100 },
-    visible: { opacity: 1, x: 0, transition: { duration: 1 } }
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 60 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.6,
+        ease: "easeOut"
+      } 
+    }
   };
 
-  const fadeInLTR = {
-    hidden: { opacity: 0, x: -100 },
-    visible: { opacity: 1, x: 0, transition: { duration: 1 } }
+  const fadeInLeft = {
+    hidden: { opacity: 0, x: -60 },
+    visible: { 
+      opacity: 1, 
+      x: 0, 
+      transition: { 
+        duration: 0.6,
+        ease: "easeOut"
+      } 
+    }
+  };
+
+  const fadeInRight = {
+    hidden: { opacity: 0, x: 60 },
+    visible: { 
+      opacity: 1, 
+      x: 0, 
+      transition: { 
+        duration: 0.6,
+        ease: "easeOut"
+      } 
+    }
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const scaleIn = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      transition: { 
+        duration: 0.5,
+        ease: "backOut"
+      } 
+    }
   };
 
   const hoverText = "hover:text-indigo-600 hover:scale-105 transition duration-300 ease-in-out";
@@ -67,29 +116,40 @@ const About = () => {
       <motion.section
         className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8 overflow-hidden"
         initial="hidden"
-        whileInView="visible"
-        viewport={{ amount: 0.2 }}
-        variants={fadeInRTL}
+        animate="visible"
+        variants={staggerContainer}
       >
         <div className="max-w-7xl mx-auto text-center w-full">
-          <div>
-            <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-6 sm:mb-8 animate-bounce">
-              <Rocket className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
-            </div>
-            <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent ${hoverText}`}>
+          <motion.div variants={staggerContainer}>
+            <motion.div 
+              className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-6 sm:mb-8"
+              variants={scaleIn}
+            >
+              <Rocket className="w-8 h-8 sm:w-10 sm:h-10 text-white animate-bounce" />
+            </motion.div>
+            <motion.h1 
+              className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent ${hoverText}`}
+              variants={fadeInUp}
+            >
               TEJSTARTER
-            </h1>
-            <p className={`text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 mb-8 sm:mb-10 max-w-3xl mx-auto leading-relaxed px-4 ${hoverText}`}>
+            </motion.h1>
+            <motion.p 
+              className={`text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 mb-8 sm:mb-10 max-w-3xl mx-auto leading-relaxed px-4 ${hoverText}`}
+              variants={fadeInUp}
+            >
               Where Innovation Meets Collaboration
-            </p>
-            <button
+            </motion.p>
+            <motion.button
               onClick={() => scrollToSection('about')}
               className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 sm:px-10 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              variants={fadeInUp}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Discover More
               <ChevronDown className="ml-2 w-4 h-4 sm:w-5 sm:h-5 animate-bounce inline" />
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </div>
       </motion.section>
 
@@ -99,24 +159,44 @@ const About = () => {
         className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white/50 backdrop-blur-sm overflow-hidden"
         initial="hidden"
         whileInView="visible"
-        viewport={{ amount: 0.2 }}
-        variants={fadeInLTR}
+        viewport={{ once: true, amount: 0.3 }}
+        variants={staggerContainer}
       >
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12 sm:mb-16">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-6">
+          <motion.div className="text-center mb-12 sm:mb-16" variants={staggerContainer}>
+            <motion.div 
+              className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-6"
+              variants={scaleIn}
+            >
               <Lightbulb className="w-6 h-6 text-white" />
-            </div>
-            <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-gray-900 ${hoverText}`}>About TEJSTARTER</h2>
-            <p className={`text-base sm:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed px-4 ${hoverText}`}>
+            </motion.div>
+            <motion.h2 
+              className={`text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-gray-900 ${hoverText}`}
+              variants={fadeInUp}
+            >
+              About TEJSTARTER
+            </motion.h2>
+            <motion.p 
+              className={`text-base sm:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed px-4 ${hoverText}`}
+              variants={fadeInUp}
+            >
               TEJSTARTER is a dynamic platform founded by passionate entrepreneurs...
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            <FeatureBox icon={<Users />} title="Collaborative Community" color="from-blue-400 to-blue-600" bg="from-blue-50 to-indigo-50" description="We believe that innovation knows no bounds..." />
-            <FeatureBox icon={<Sparkles />} title="Entrepreneurial Spirit" color="from-green-400 to-emerald-600" bg="from-green-50 to-emerald-50" description="Our platform is designed to nurture the entrepreneurial spirit..." />
-            <FeatureBox icon={<Zap />} title="Innovative Approach" color="from-orange-400 to-red-600" bg="from-orange-50 to-red-50" description="We take a unique approach to innovation..." />
-          </div>
+            </motion.p>
+          </motion.div>
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeInLeft}>
+              <FeatureBox icon={<Users />} title="Collaborative Community" color="from-blue-400 to-blue-600" bg="from-blue-50 to-indigo-50" description="We believe that innovation knows no bounds..." />
+            </motion.div>
+            <motion.div variants={fadeInUp}>
+              <FeatureBox icon={<Sparkles />} title="Entrepreneurial Spirit" color="from-green-400 to-emerald-600" bg="from-green-50 to-emerald-50" description="Our platform is designed to nurture the entrepreneurial spirit..." />
+            </motion.div>
+            <motion.div variants={fadeInRight}>
+              <FeatureBox icon={<Zap />} title="Innovative Approach" color="from-orange-400 to-red-600" bg="from-orange-50 to-red-50" description="We take a unique approach to innovation..." />
+            </motion.div>
+          </motion.div>
         </div>
       </motion.section>
 
@@ -126,29 +206,58 @@ const About = () => {
         className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
         initial="hidden"
         whileInView="visible"
-        viewport={{ amount: 0.2 }}
-        variants={fadeInRTL}
+        viewport={{ once: true, amount: 0.3 }}
+        variants={staggerContainer}
       >
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12 sm:mb-16">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-full mb-6">
+          <motion.div className="text-center mb-12 sm:mb-16" variants={staggerContainer}>
+            <motion.div 
+              className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-full mb-6"
+              variants={scaleIn}
+            >
               <Sparkles className="w-6 h-6 text-white" />
-            </div>
-            <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-gray-900 ${hoverText}`}>What Makes Us Unique?</h2>
-            <p className={`text-base sm:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed px-4 ${hoverText}`}>
+            </motion.div>
+            <motion.h2 
+              className={`text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-gray-900 ${hoverText}`}
+              variants={fadeInUp}
+            >
+              What Makes Us Unique?
+            </motion.h2>
+            <motion.p 
+              className={`text-base sm:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed px-4 ${hoverText}`}
+              variants={fadeInUp}
+            >
               TEJSTARTER stands apart through our innovative approach...
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
-            <FeatureBox icon={<RefreshCw />} title="Flexible Contribution Model" color="from-cyan-400 to-blue-600" bg="from-cyan-50 to-blue-50" description="Choose between payments or equity shares..." />
-            <FeatureBox icon={<Users />} title="Collaborative Project System" color="from-blue-400 to-indigo-600" bg="from-blue-50 to-indigo-50" description="Work on your own ideas or join others' projects." />
-            <FeatureBox icon={<Sparkles />} title="Student-Focused Programs" color="from-orange-400 to-yellow-600" bg="from-orange-50 to-yellow-50" description="Build, learn, and grow while studying." />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            <FeatureBox icon={<User />} title="Expert Mentorship" color="from-purple-400 to-pink-600" bg="from-purple-50 to-pink-50" description="Guidance from professionals and founders." />
-            <FeatureBox icon={<Globe />} title="Global Vision" color="from-green-400 to-teal-600" bg="from-green-50 to-teal-50" description="Collaborations in India, Ghana, Nigeria..." />
-            <FeatureBox icon={<Building />} title="Entrepreneurship" color="from-indigo-400 to-purple-600" bg="from-indigo-50 to-purple-50" description="Support to grow your own ventures." />
-          </div>
+            </motion.p>
+          </motion.div>
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16"
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeInLeft}>
+              <FeatureBox icon={<RefreshCw />} title="Flexible Contribution Model" color="from-cyan-400 to-blue-600" bg="from-cyan-50 to-blue-50" description="Choose between payments or equity shares..." />
+            </motion.div>
+            <motion.div variants={fadeInUp}>
+              <FeatureBox icon={<Users />} title="Collaborative Project System" color="from-blue-400 to-indigo-600" bg="from-blue-50 to-indigo-50" description="Work on your own ideas or join others' projects." />
+            </motion.div>
+            <motion.div variants={fadeInRight}>
+              <FeatureBox icon={<Sparkles />} title="Student-Focused Programs" color="from-orange-400 to-yellow-600" bg="from-orange-50 to-yellow-50" description="Build, learn, and grow while studying." />
+            </motion.div>
+          </motion.div>
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeInLeft}>
+              <FeatureBox icon={<User />} title="Expert Mentorship" color="from-purple-400 to-pink-600" bg="from-purple-50 to-pink-50" description="Guidance from professionals and founders." />
+            </motion.div>
+            <motion.div variants={fadeInUp}>
+              <FeatureBox icon={<Globe />} title="Global Vision" color="from-green-400 to-teal-600" bg="from-green-50 to-teal-50" description="Collaborations in India, Ghana, Nigeria..." />
+            </motion.div>
+            <motion.div variants={fadeInRight}>
+              <FeatureBox icon={<Building />} title="Entrepreneurship" color="from-indigo-400 to-purple-600" bg="from-indigo-50 to-purple-50" description="Support to grow your own ventures." />
+            </motion.div>
+          </motion.div>
         </div>
       </motion.section>
 
@@ -158,38 +267,60 @@ const About = () => {
         className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 overflow-hidden"
         initial="hidden"
         whileInView="visible"
-        viewport={{ amount: 0.2 }}
-        variants={fadeInLTR}
+        viewport={{ once: true, amount: 0.3 }}
+        variants={staggerContainer}
       >
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 1 }}
           className="max-w-md mx-auto bg-white/90 backdrop-blur-lg rounded-xl shadow-2xl p-6 sm:p-8 transition duration-300 hover:scale-[1.01]"
         >
-          <div className="text-center mb-8 sm:mb-10">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-4">
+          <motion.div className="text-center mb-8 sm:mb-10" variants={staggerContainer}>
+            <motion.div 
+              className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-4"
+              variants={scaleIn}
+            >
               <Mail className="w-6 h-6 text-white" />
-            </div>
-            <h2 className={`text-3xl sm:text-4xl font-bold text-gray-900 ${hoverText}`}>Get in Touch</h2>
-            <p className={`text-sm text-gray-500 mt-2 px-4 ${hoverText}`}>
+            </motion.div>
+            <motion.h2 
+              className={`text-3xl sm:text-4xl font-bold text-gray-900 ${hoverText}`}
+              variants={fadeInUp}
+            >
+              Get in Touch
+            </motion.h2>
+            <motion.p 
+              className={`text-sm text-gray-500 mt-2 px-4 ${hoverText}`}
+              variants={fadeInUp}
+            >
               Have a question, project idea, or just want to say hello?
-            </p>
-          </div>
-          <form className="space-y-6">
-            <InputField icon={<User />} id="fullName" label="Full Name" placeholder="John Doe" type="text" />
-            <InputField icon={<Mail />} id="email" label="Email Address" placeholder="you@example.com" type="email" />
-            <TextField id="subject" label="Subject" placeholder="Project Collaboration Inquiry" />
-            <TextAreaField id="message" label="Message" placeholder="Your message..." />
-            <button
+            </motion.p>
+          </motion.div>
+          <motion.form className="space-y-6" variants={staggerContainer}>
+            <motion.div variants={fadeInUp}>
+              <InputField icon={<User />} id="fullName" label="Full Name" placeholder="John Doe" type="text" />
+            </motion.div>
+            <motion.div variants={fadeInUp}>
+              <InputField icon={<Mail />} id="email" label="Email Address" placeholder="you@example.com" type="email" />
+            </motion.div>
+            <motion.div variants={fadeInUp}>
+              <TextField id="subject" label="Subject" placeholder="Project Collaboration Inquiry" />
+            </motion.div>
+            <motion.div variants={fadeInUp}>
+              <TextAreaField id="message" label="Message" placeholder="Your message..." />
+            </motion.div>
+            <motion.button
               type="submit"
               className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white h-12 rounded-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center"
+              variants={scaleIn}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Send Message
               <Mail className="ml-2 w-5 h-5" />
-            </button>
-          </form>
+            </motion.button>
+          </motion.form>
         </motion.div>
       </motion.section>
     </div>

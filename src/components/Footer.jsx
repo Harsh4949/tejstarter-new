@@ -2,16 +2,63 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   Rocket,
-  Facebook,
+  Github,
   Twitter,
   Linkedin,
   Instagram,
   MapPin,
   Mail,
   Phone,
+  Globe,
+  ArrowUpRight,
+  Sparkles,
+  Users,
+  Zap,
+  Heart,
+  Shield,
+  Award,
+  BookOpen,
+  Briefcase,
+  TrendingUp,
+  Target
 } from 'lucide-react';
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
+  const footerLinks = {
+    product: [
+      { name: 'Launchpad', href: '/launchpad', icon: Rocket },
+      { name: 'Collaboration', href: '/collaboration', icon: Users },
+      { name: 'Success Stories', href: '/stories', icon: Award },
+      { name: 'About Us', href: '/about', icon: Heart },
+    ],
+    programs: [
+      { name: 'Student Hub', href: '#', icon: BookOpen },
+      { name: 'Startup Incubation', href: '#', icon: TrendingUp },
+      { name: 'Mentorship', href: '#', icon: Target },
+      { name: 'Career Growth', href: '#', icon: Briefcase },
+    ],
+    resources: [
+      { name: 'Documentation', href: '#', icon: BookOpen },
+      { name: 'API Reference', href: '#', icon: Zap },
+      { name: 'Community', href: '#', icon: Users },
+      { name: 'Support', href: '#', icon: Shield },
+    ],
+    legal: [
+      { name: 'Privacy Policy', href: '/privacy' },
+      { name: 'Terms of Service', href: '/terms' },
+      { name: 'Cookie Policy', href: '/cookies' },
+      { name: 'Security', href: '/security' },
+    ]
+  };
+
+  const socialLinks = [
+    { name: 'GitHub', icon: Github, href: '#', color: 'hover:text-gray-900' },
+    { name: 'Twitter', icon: Twitter, href: '#', color: 'hover:text-blue-500' },
+    { name: 'LinkedIn', icon: Linkedin, href: '#', color: 'hover:text-blue-600' },
+    { name: 'Instagram', icon: Instagram, href: '#', color: 'hover:text-pink-500' },
+  ];
   return (
     <footer className="bg-gradient-to-br from-[#e0f7fa] to-[#f0f9ff] py-16">
       <div className="max-w-7xl mx-auto px-6">
