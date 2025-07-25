@@ -8,5 +8,5 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-  base: process.env.VITE_BASE_URL || '/tejstarter-new/',
+  base: process.env.NODE_ENV === 'production' ? '/tejstarter-new/' : '/',
 })
