@@ -54,7 +54,7 @@ const About = () => {
   };
 
   return (
-    <div>
+    <div className="w-full overflow-x-hidden">
       <SEO 
         title="About TejStarter - Mission, Vision & Team | Student Collaboration Platform"
         description="Discover TejStarter's journey to revolutionize student entrepreneurship. Learn about our mission to connect college students with startup opportunities, our innovative collaboration model, and how we're building India's largest student innovation network."
@@ -65,29 +65,29 @@ const About = () => {
       />
       {/* Hero Section */}
       <motion.section
-        className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8"
+        className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8 overflow-hidden"
         initial="hidden"
         whileInView="visible"
         viewport={{ amount: 0.2 }}
         variants={fadeInRTL}
       >
-        <div className="max-w-7xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center w-full">
           <div>
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-8 animate-bounce">
-              <Rocket className="w-10 h-10 text-white" />
+            <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-6 sm:mb-8 animate-bounce">
+              <Rocket className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
             </div>
-            <h1 className={`text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent ${hoverText}`}>
+            <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent ${hoverText}`}>
               TEJSTARTER
             </h1>
-            <p className={`text-2xl md:text-3xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed ${hoverText}`}>
+            <p className={`text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 mb-8 sm:mb-10 max-w-3xl mx-auto leading-relaxed px-4 ${hoverText}`}>
               Where Innovation Meets Collaboration
             </p>
             <button
               onClick={() => scrollToSection('about')}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-10 py-4 rounded-full text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 sm:px-10 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Discover More
-              <ChevronDown className="ml-2 w-5 h-5 animate-bounce inline" />
+              <ChevronDown className="ml-2 w-4 h-4 sm:w-5 sm:h-5 animate-bounce inline" />
             </button>
           </div>
         </div>
@@ -96,23 +96,23 @@ const About = () => {
       {/* About Section */}
       <motion.section
         id="about"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-white/50 backdrop-blur-sm"
+        className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white/50 backdrop-blur-sm overflow-hidden"
         initial="hidden"
         whileInView="visible"
         viewport={{ amount: 0.2 }}
         variants={fadeInLTR}
       >
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12 sm:mb-16">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-6">
               <Lightbulb className="w-6 h-6 text-white" />
             </div>
-            <h2 className={`text-5xl font-bold mb-6 text-gray-900 ${hoverText}`}>About TEJSTARTER</h2>
-            <p className={`text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed ${hoverText}`}>
+            <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-gray-900 ${hoverText}`}>About TEJSTARTER</h2>
+            <p className={`text-base sm:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed px-4 ${hoverText}`}>
               TEJSTARTER is a dynamic platform founded by passionate entrepreneurs...
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             <FeatureBox icon={<Users />} title="Collaborative Community" color="from-blue-400 to-blue-600" bg="from-blue-50 to-indigo-50" description="We believe that innovation knows no bounds..." />
             <FeatureBox icon={<Sparkles />} title="Entrepreneurial Spirit" color="from-green-400 to-emerald-600" bg="from-green-50 to-emerald-50" description="Our platform is designed to nurture the entrepreneurial spirit..." />
             <FeatureBox icon={<Zap />} title="Innovative Approach" color="from-orange-400 to-red-600" bg="from-orange-50 to-red-50" description="We take a unique approach to innovation..." />
@@ -123,28 +123,28 @@ const About = () => {
       {/* Unique Section */}
       <motion.section
         id="unique"
-        className="py-20 px-4 sm:px-6 lg:px-8"
+        className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
         initial="hidden"
         whileInView="visible"
         viewport={{ amount: 0.2 }}
         variants={fadeInRTL}
       >
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12 sm:mb-16">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-full mb-6">
               <Sparkles className="w-6 h-6 text-white" />
             </div>
-            <h2 className={`text-5xl font-bold mb-6 text-gray-900 ${hoverText}`}>What Makes Us Unique?</h2>
-            <p className={`text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed ${hoverText}`}>
+            <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-gray-900 ${hoverText}`}>What Makes Us Unique?</h2>
+            <p className={`text-base sm:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed px-4 ${hoverText}`}>
               TEJSTARTER stands apart through our innovative approach...
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
             <FeatureBox icon={<RefreshCw />} title="Flexible Contribution Model" color="from-cyan-400 to-blue-600" bg="from-cyan-50 to-blue-50" description="Choose between payments or equity shares..." />
             <FeatureBox icon={<Users />} title="Collaborative Project System" color="from-blue-400 to-indigo-600" bg="from-blue-50 to-indigo-50" description="Work on your own ideas or join others' projects." />
             <FeatureBox icon={<Sparkles />} title="Student-Focused Programs" color="from-orange-400 to-yellow-600" bg="from-orange-50 to-yellow-50" description="Build, learn, and grow while studying." />
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             <FeatureBox icon={<User />} title="Expert Mentorship" color="from-purple-400 to-pink-600" bg="from-purple-50 to-pink-50" description="Guidance from professionals and founders." />
             <FeatureBox icon={<Globe />} title="Global Vision" color="from-green-400 to-teal-600" bg="from-green-50 to-teal-50" description="Collaborations in India, Ghana, Nigeria..." />
             <FeatureBox icon={<Building />} title="Entrepreneurship" color="from-indigo-400 to-purple-600" bg="from-indigo-50 to-purple-50" description="Support to grow your own ventures." />
@@ -155,7 +155,7 @@ const About = () => {
       {/* Contact Section */}
       <motion.section
         id="contact"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50"
+        className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 overflow-hidden"
         initial="hidden"
         whileInView="visible"
         viewport={{ amount: 0.2 }}
@@ -166,14 +166,14 @@ const About = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ amount: 0.2 }}
           transition={{ duration: 1 }}
-          className="max-w-md mx-auto bg-white/90 backdrop-blur-lg rounded-xl shadow-2xl p-8 transition duration-300 hover:scale-[1.01]"
+          className="max-w-md mx-auto bg-white/90 backdrop-blur-lg rounded-xl shadow-2xl p-6 sm:p-8 transition duration-300 hover:scale-[1.01]"
         >
-          <div className="text-center mb-10">
+          <div className="text-center mb-8 sm:mb-10">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-4">
               <Mail className="w-6 h-6 text-white" />
             </div>
-            <h2 className={`text-4xl font-bold text-gray-900 ${hoverText}`}>Get in Touch</h2>
-            <p className={`text-sm text-gray-500 mt-2 ${hoverText}`}>
+            <h2 className={`text-3xl sm:text-4xl font-bold text-gray-900 ${hoverText}`}>Get in Touch</h2>
+            <p className={`text-sm text-gray-500 mt-2 px-4 ${hoverText}`}>
               Have a question, project idea, or just want to say hello?
             </p>
           </div>
@@ -197,12 +197,12 @@ const About = () => {
 };
 
 const FeatureBox = ({ icon, title, description, color, bg }) => (
-  <div className={`group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 bg-gradient-to-br ${bg} border-0 rounded-lg p-8 text-center`}>
-    <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r ${color} rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300`}>
-      {React.cloneElement(icon, { className: 'w-8 h-8 text-white' })}
+  <div className={`group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 bg-gradient-to-br ${bg} border-0 rounded-lg p-6 sm:p-8 text-center w-full`}>
+    <div className={`inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r ${color} rounded-2xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300`}>
+      {React.cloneElement(icon, { className: 'w-7 h-7 sm:w-8 sm:h-8 text-white' })}
     </div>
-    <h3 className="text-xl font-bold mb-4 text-gray-900 group-hover:text-indigo-600 transition-colors duration-300">{title}</h3>
-    <p className="text-gray-600 leading-relaxed group-hover:text-gray-800 transition-colors duration-300">{description}</p>
+    <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-gray-900 group-hover:text-indigo-600 transition-colors duration-300">{title}</h3>
+    <p className="text-sm sm:text-base text-gray-600 leading-relaxed group-hover:text-gray-800 transition-colors duration-300">{description}</p>
   </div>
 );
 
