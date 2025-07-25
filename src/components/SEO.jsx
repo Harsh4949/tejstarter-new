@@ -1,5 +1,4 @@
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import { useEffect } from 'react';
 
 const SEO = ({ 
   title = "TejStarter - College Student Collaboration Platform for Startups",
@@ -11,66 +10,102 @@ const SEO = ({
   article = false,
   schemaData = null
 }) => {
-  const fullTitle = title.includes('TejStarter') ? title : `${title} | TejStarter`;
-  const fullUrl = url.startsWith('http') ? url : `https://tejstarter.com${url}`;
-  const fullImage = image.startsWith('http') ? image : `https://tejstarter.com${image}`;
+  useEffect(() => {
+    const fullTitle = title.includes('TejStarter') ? title : `${title} | TejStarter`;
+    const fullUrl = url.startsWith('http') ? url : `https://tejstarter.com${url}`;
+    const fullImage = image.startsWith('http') ? image : `https://tejstarter.com${image}`;
 
-  const defaultSchemaData = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": title,
-    "description": description,
-    "url": fullUrl,
-    "image": fullImage,
-    "publisher": {
-      "@type": "Organization",
-      "name": "TejStarter",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://tejstarter.com/src/assets/tej_logo.png"
+    // Update document title
+    document.title = fullTitle;
+
+    // Helper function to update or create meta tags
+    const updateMetaTag = (selector, content, attribute = 'name') => {
+      let tag = document.querySelector(selector);
+      if (!tag) {
+        tag = document.createElement('meta');
+        tag.setAttribute(attribute, selector.replace(/meta\[|\]|"/g, '').split('=')[1]);
+        document.head.appendChild(tag);
       }
+      tag.setAttribute('content', content);
+    };
+
+    // Helper function to update property meta tags
+    const updatePropertyTag = (property, content) => {
+      let tag = document.querySelector(`meta[property="${property}"]`);
+      if (!tag) {
+        tag = document.createElement('meta');
+        tag.setAttribute('property', property);
+        document.head.appendChild(tag);
+      }
+      tag.setAttribute('content', content);
+    };
+
+    // Basic Meta Tags
+    updateMetaTag('meta[name="description"]', description);
+    updateMetaTag('meta[name="keywords"]', keywords);
+
+    // Open Graph
+    updatePropertyTag('og:title', title);
+    updatePropertyTag('og:description', description);
+    updatePropertyTag('og:image', fullImage);
+    updatePropertyTag('og:url', fullUrl);
+    updatePropertyTag('og:type', type);
+    updatePropertyTag('og:site_name', 'TejStarter');
+
+    // Twitter Card
+    updateMetaTag('meta[name="twitter:card"]', 'summary_large_image');
+    updateMetaTag('meta[name="twitter:title"]', title);
+    updateMetaTag('meta[name="twitter:description"]', description);
+    updateMetaTag('meta[name="twitter:image"]', fullImage);
+    updateMetaTag('meta[name="twitter:site"]', '@tejstarter');
+
+    // Article specific meta tags
+    if (article) {
+      updatePropertyTag('article:author', 'TejStarter Team');
+      updatePropertyTag('article:publisher', 'https://tejstarter.com');
+      updatePropertyTag('article:section', 'Entrepreneurship');
+      updatePropertyTag('article:tag', keywords);
     }
-  };
 
-  return (
-    <Helmet>
-      {/* Basic Meta Tags */}
-      <title>{fullTitle}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
-      <link rel="canonical" href={fullUrl} />
+    // Update or create canonical link
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.href = fullUrl;
 
-      {/* Open Graph */}
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={fullImage} />
-      <meta property="og:url" content={fullUrl} />
-      <meta property="og:type" content={type} />
-      <meta property="og:site_name" content="TejStarter" />
+    // Update or create structured data
+    const defaultSchemaData = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": title,
+      "description": description,
+      "url": fullUrl,
+      "image": fullImage,
+      "publisher": {
+        "@type": "Organization",
+        "name": "TejStarter",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://tejstarter.com/src/assets/tej_logo.png"
+        }
+      }
+    };
 
-      {/* Twitter Card */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={fullImage} />
-      <meta name="twitter:site" content="@tejstarter" />
+    let structuredDataScript = document.querySelector('script[type="application/ld+json"]');
+    if (!structuredDataScript) {
+      structuredDataScript = document.createElement('script');
+      structuredDataScript.type = 'application/ld+json';
+      document.head.appendChild(structuredDataScript);
+    }
+    structuredDataScript.textContent = JSON.stringify(schemaData || defaultSchemaData);
 
-      {/* Article specific meta tags */}
-      {article && (
-        <>
-          <meta property="article:author" content="TejStarter Team" />
-          <meta property="article:publisher" content="https://tejstarter.com" />
-          <meta property="article:section" content="Entrepreneurship" />
-          <meta property="article:tag" content={keywords} />
-        </>
-      )}
+  }, [title, description, keywords, image, url, type, article, schemaData]);
 
-      {/* Schema.org structured data */}
-      <script type="application/ld+json">
-        {JSON.stringify(schemaData || defaultSchemaData)}
-      </script>
-    </Helmet>
-  );
+  // This component doesn't render anything visible
+  return null;
 };
 
 export default SEO;
