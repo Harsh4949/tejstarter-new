@@ -79,7 +79,7 @@ const Signup = () => {
 
       await new Promise(resolve => setTimeout(resolve, 2000));
       console.log('Signup success:', formData);
-      navigate('/login');
+      navigate('/signin');
     } catch (err) {
       setError(err.message || 'Signup failed');
     } finally {
@@ -263,7 +263,7 @@ const Signup = () => {
 
           <div className="mt-6 text-center text-sm text-gray-600">
             Already have an account?{' '}
-            <button onClick={() => navigate('/login')} className="text-indigo-600 hover:underline">
+            <button onClick={() => navigate('/signin')} className="text-indigo-600 hover:underline">
               Sign in
             </button>
           </div>

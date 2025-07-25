@@ -50,7 +50,7 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <Link to="/login" className="text-black font-bold text-sm hover:text-blue-600 transition">
+            <Link to="/signin" className="text-black font-bold text-sm hover:text-blue-600 transition">
               Sign in
             </Link>
             <Link to="/signup" className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-2 rounded-full transition-colors">
@@ -90,7 +90,7 @@ const Header = () => {
                 </Link>
               ))}
               <div className="flex flex-col space-y-2 pt-4">
-                <Link to="/login" onClick={handleNavClick} className="text-black font-bold text-sm hover:text-blue-600 transition">
+                <Link to="/signin" onClick={handleNavClick} className="text-black font-bold text-sm hover:text-blue-600 transition">
                   Sign in
                 </Link>
                 <Link to="/signup" onClick={handleNavClick} className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-2 rounded-full transition-colors">
