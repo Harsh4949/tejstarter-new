@@ -6,6 +6,7 @@ import {
   Twitter,
   Linkedin,
   Instagram,
+  Facebook,
   MapPin,
   Mail,
   Phone,

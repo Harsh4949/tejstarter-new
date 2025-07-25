@@ -162,7 +162,7 @@ const Stories = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <SEO 
         title="Success Stories - TejStarter | Student Collaboration Success Cases"
         description="Read inspiring success stories from students who found collaboration partners, mentors, and built successful startups through TejStarter. Get motivated by real student achievements."
@@ -174,12 +174,12 @@ const Stories = () => {
 
       {/* Hero Section */}
       <motion.section 
-        className="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 text-white py-20 overflow-hidden"
+        className="relative bg-blue-600 text-white py-20 overflow-hidden"
         initial="hidden"
         animate="visible"
         variants={fadeInUp}
       >
-        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-blue-700/10"></div>
         <div className="relative max-w-7xl mx-auto px-6 text-center">
           <motion.h1 
             className="text-4xl md:text-6xl font-bold mb-6"
@@ -188,7 +188,7 @@ const Stories = () => {
             Success Stories
           </motion.h1>
           <motion.p 
-            className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90"
+            className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-blue-50"
             variants={fadeInUp}
           >
             Discover how students across India are building the future together through collaboration, innovation, and determination.
@@ -207,11 +207,11 @@ const Stories = () => {
                   className="text-center"
                   variants={fadeInUp}
                 >
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4">
-                    <IconComponent className="w-8 h-8" />
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500 rounded-full mb-4">
+                    <IconComponent className="w-8 h-8 text-white" />
                   </div>
                   <div className="text-3xl font-bold mb-2">{stat.value}</div>
-                  <div className="text-white/80">{stat.label}</div>
+                  <div className="text-blue-100">{stat.label}</div>
                 </motion.div>
               );
             })}
@@ -245,9 +245,9 @@ const Stories = () => {
             >
               <div className="md:grid md:grid-cols-2">
                 <div className="relative h-64 md:h-full">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-blue-500 flex items-center justify-center">
                     <div className="text-white text-center">
-                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <div className="w-20 h-20 bg-blue-400 rounded-full flex items-center justify-center mx-auto mb-4">
                         <Star className="w-10 h-10" />
                       </div>
                       <p className="text-lg font-semibold">Featured Story</p>
@@ -334,7 +334,7 @@ const Stories = () => {
 
       {/* All Stories Section */}
       <motion.section 
-        className="py-16 bg-gray-50"
+        className="py-16 bg-blue-50"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
@@ -378,13 +378,13 @@ const Stories = () => {
                 variants={fadeInUp}
                 whileHover={{ y: -5 }}
               >
-                <div className="relative h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                <div className="relative h-48 bg-blue-500 flex items-center justify-center">
                   <div className="text-white text-center">
-                    <User className="w-12 h-12 mx-auto mb-2 opacity-80" />
-                    <p className="text-sm opacity-80">{story.category}</p>
+                    <User className="w-12 h-12 mx-auto mb-2" />
+                    <p className="text-sm text-blue-100">{story.category}</p>
                   </div>
                   <div className="absolute top-4 right-4">
-                    <span className="bg-white/20 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full">
+                    <span className="bg-blue-400 text-white text-xs px-2 py-1 rounded-full">
                       {story.readTime}
                     </span>
                   </div>
@@ -449,7 +449,7 @@ const Stories = () => {
 
       {/* CTA Section */}
       <motion.section 
-        className="py-16 bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+        className="py-16 bg-blue-600 text-white"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
@@ -457,11 +457,11 @@ const Stories = () => {
       >
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Write Your Success Story?</h2>
-          <p className="text-xl mb-8 opacity-90">
+          <p className="text-xl mb-8 text-blue-100">
             Join thousands of students who are building the future together. Your journey starts here.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+            <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors">
               Join TejStarter
             </button>
             <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-colors">
