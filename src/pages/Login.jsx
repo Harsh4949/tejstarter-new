@@ -54,9 +54,15 @@ const Login = () => {
         schemaData={loginPageSchema}
       />
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 bg-white shadow-2xl rounded-3xl overflow-hidden">
-        {/* Left Side Lottie Animation */}
+        {/* Left Side Animation Placeholder */}
         <div className="hidden lg:flex items-center justify-center bg-gradient-to-br from-indigo-100 via-blue-100 to-white p-8">
-          <Lottie animationData={loginAnimation} loop className="h-[450px] w-full" />
+          <div className="text-center">
+            <div className="animate-bounce mb-6">
+              <Rocket className="h-32 w-32 text-blue-600 mx-auto" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Welcome Back!</h2>
+            <p className="text-gray-600">Sign in to access your collaboration dashboard</p>
+          </div>
         </div>
 
         {/* Right Side Login Form */}
