@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, User, Rocket, GraduationCap, Calendar, Building2, Link } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, Phone, MapPin, Calendar, Building2, Link, Upload, CheckCircle } from 'lucide-react';
 import SEO from '../components/SEO';
+import { useAuth } from '../context/AuthContext';
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const { signup, login } = useAuth();
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,7 +21,6 @@ const Signup = () => {
     portfolio: null,
     companyUrl: '',
     agree: false,
-    // New student fields
     educationLevel: '',
     subLevel: '',
     majorField: '',
@@ -29,141 +32,86 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [passwordStrength, setPasswordStrength] = useState(0);
-  const navigate = useNavigate();
 
-  // Education level options
-  const levelOptions = {
-    "Primary": ["8th", "9th", "10th"],
-    "Secondary": ["11th", "12th"],
-    "post-secondary": ["Diploma", "BTech", "BA", "BCom", "BSc", "MSc", "BBA", "BCA", "Other"]
-  };
-
-  // Major fields by degree
-  const majorFieldsByDegree = {
-    "Diploma": [
-      "Computer Engineering",
-      "Mechanical Engineering", 
-      "Civil Engineering",
-      "Electrical Engineering",
-      "Electronics Engineering",
-      "Automobile Engineering",
-      "Information Technology",
-      "Other"
-    ],
-    "BTech": [
-      "Computer Engineering",
-      "Information Technology",
-      "Mechanical Engineering",
-      "Civil Engineering", 
-      "Electronics Engineering",
-      "ENTC Engineering",
-      "Artificial Intelligence & Machine Learning",
-      "Data Science",
-      "Electrical Engineering",
-      "Other"
-    ],
-    "BSc": [
-      "Computer Science",
-      "Mathematics",
-      "Physics", 
-      "Chemistry",
-      "Biotechnology",
-      "Information Technology",
-      "Electronics",
-      "Other"
-    ],
-    "MSc": [
-      "Computer Science",
-      "Mathematics",
-      "Physics",
-      "Chemistry",
-      "Information Technology", 
-      "Artificial Intelligence",
-      "Other"
-    ],
-    "BBA": [
-      "Marketing",
-      "Finance",
-      "Human Resource Management",
-      "Business Analytics",
-      "International Business",
-      "Other"
-    ],
-    "BCA": [
-      "Computer Applications",
-      "Software Development",
-      "Networking",
-      "Cybersecurity",
-      "Other"
-    ]
-  };
-
-  // College options
-  const collegeOptions = [
-    "Shivganga Charitable Trust, Sangli's Vishveshwarya Technical Campus",
-    "Shikshan Prasarak Sanstha's Padmabhushan Vasantraodada Patil Mahavidyalaya",
-    "Sanjay Bhokare Group of Institutes, Miraj",
-    "Padmabhooshan Vasantraodada Patil Institute of Technology, Budhgaon",
-    "Government Polytechnic, Miraj",
-    "Government Residence Women Polytechnic, Tasgaon",
-    "शासकीय औद्योगिक प्रशिक्षण संस्था, कवठेमहाकाळ, जि: सांगली",
-    "शासकीय औद्योगिक प्रशिक्षण संस्था, तासगाव, जि: सांगली"
+  // Education options
+  const educationLevels = [
+    'High School',
+    'Undergraduate',
+    'Postgraduate',
+    'Professional Course'
   ];
 
-  const calculatePasswordStrength = (password) => {
-    let strength = 0;
-    if (password.length >= 8) strength++;
-    if (/[A-Z]/.test(password)) strength++;
-    if (/[a-z]/.test(password)) strength++;
-    if (/[0-9]/.test(password)) strength++;
-    if (/[^A-Za-z0-9]/.test(password)) strength++;
-    return strength;
+  const degreesByLevel = {
+    'High School': ['10th Grade', '12th Grade'],
+    'Undergraduate': ['B.Tech', 'B.E', 'B.Sc', 'B.Com', 'B.A', 'BBA', 'BCA', 'Other'],
+    'Postgraduate': ['M.Tech', 'M.E', 'M.Sc', 'M.Com', 'M.A', 'MBA', 'MCA', 'Other'],
+    'Professional Course': ['Diploma', 'Certificate', 'Other']
   };
+
+  const majorFieldsByDegree = {
+    'B.Tech': ['Computer Science', 'Information Technology', 'Electronics', 'Mechanical', 'Civil', 'Electrical', 'Chemical', 'Other'],
+    'B.E': ['Computer Science', 'Information Technology', 'Electronics', 'Mechanical', 'Civil', 'Electrical', 'Chemical', 'Other'],
+    'M.Tech': ['Computer Science', 'Information Technology', 'Electronics', 'Mechanical', 'Civil', 'Electrical', 'Chemical', 'Other'],
+    'M.E': ['Computer Science', 'Information Technology', 'Electronics', 'Mechanical', 'Civil', 'Electrical', 'Chemical', 'Other']
+  };
+
+  const roleOptions = [
+    'Student',
+    'Entrepreneur',
+    'Mentor',
+    'Investor',
+    'Industry Professional'
+  ];
+
+  const locationOptions = [
+    'Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad', 'Jaipur', 'Lucknow', 'Other'
+  ];
+
+  // Password strength calculation
+  useEffect(() => {
+    const calculateStrength = () => {
+      const password = formData.password;
+      let strength = 0;
+      
+      if (password.length >= 8) strength++;
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[a-z]/.test(password)) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[^A-Za-z0-9]/.test(password)) strength++;
+      
+      setPasswordStrength(strength);
+    };
+    
+    calculateStrength();
+  }, [formData.password]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked, files } = e.target;
-    if (type === 'checkbox') {
-      setFormData(prev => ({ ...prev, [name]: checked }));
-    } else if (type === 'file') {
-      setFormData(prev => ({ ...prev, [name]: files[0] }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-      if (name === 'password') {
-        setPasswordStrength(calculatePasswordStrength(value));
-      }
-    }
+    
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : type === 'file' ? files[0] : value
+    }));
+    
     if (error) setError('');
   };
 
-  // Handle education level change
-  useEffect(() => {
-    if (formData.educationLevel) {
-      setFormData(prev => ({ ...prev, subLevel: '', majorField: '' }));
-    }
-  }, [formData.educationLevel]);
-
-  // Handle sub level change 
-  useEffect(() => {
-    if (formData.subLevel) {
-      setFormData(prev => ({ ...prev, majorField: '' }));
-    }
-  }, [formData.subLevel]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsLoading(true); // Use setIsLoading instead of setLoading
     setError('');
+    
     try {
       const {
         name, email, phone, password, confirmPassword, role,
         location, agree, dob
       } = formData;
 
+      // Validation
       if (!name || !email || !phone || !password || !confirmPassword || !role || !location) {
         throw new Error('Please fill in all required fields');
       }
       
-      // Additional validation for student role
       if (role === 'Student') {
         if (!dob || !formData.educationLevel || !formData.subLevel || !formData.college) {
           throw new Error('Please fill in all student-specific fields');
@@ -186,13 +134,44 @@ const Signup = () => {
         throw new Error('You must agree to the Terms & Privacy Policy');
       }
 
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Signup success:', formData);
-      navigate('/signin');
+      try {
+        // Try to create new account
+        const result = await signup(formData);
+        
+        if (result) {
+          // Success - redirect to dashboard
+          navigate('/dashboard', { 
+            state: { 
+              message: 'Account created successfully! Welcome to TejStarter.',
+              isNewUser: true
+            }
+          });
+        }
+      } catch (signupError) {
+        // Check if user already exists
+        if (signupError.message?.includes('already exists') || signupError.message?.includes('Conflict')) {
+          // User exists, try to log them in instead
+          try {
+            const loginResult = await login({ email, password });
+            if (loginResult) {
+              navigate('/dashboard', { 
+                state: { 
+                  message: 'Welcome back! You already have an account.',
+                  isExistingUser: true
+                }
+              });
+            }
+          } catch (loginError) {
+            throw new Error('User already exists but password is incorrect. Please try logging in or reset your password.');
+          }
+        } else {
+          throw signupError;
+        }
+      }
     } catch (err) {
-      setError(err.message || 'Signup failed');
+      setError(err.message || 'Signup failed. Please try again.');
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Use setIsLoading
     }
   };
 
@@ -208,274 +187,416 @@ const Signup = () => {
     return 'Strong';
   };
 
-  const signupPageSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Join TejStarter - Create Your Account",
-    "description": "Create your TejStarter account to access collaboration opportunities, startup projects, and mentorship programs for college students",
-    "url": "https://tejstarter.com/signup",
-    "mainEntity": {
-      "@type": "Organization",
-      "name": "TejStarter",
-      "memberOf": "Student Collaboration Network"
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-blue-50 flex items-center justify-center px-6 py-10">
+    <>
       <SEO 
-        title="Join TejStarter - Create Your Student Account | Free Registration"
-        description="Join 1000+ students in India's premier collaboration platform. Create your free TejStarter account to access startup projects, industry mentorship, and entrepreneurship opportunities while studying."
-        keywords="join tejstarter, student registration, free account signup, college collaboration platform, student entrepreneur registration, startup platform signup"
-        url="/signup"
-        type="website"
-        schemaData={signupPageSchema}
+        title="Join TejStarter - Create Your Account"
+        description="Create your TejStarter account to access collaboration opportunities, startup projects, and mentorship programs for college students"
+        keywords="TejStarter signup, student collaboration, startup registration, college networking"
       />
-      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 bg-white shadow-2xl rounded-3xl overflow-hidden">
-        {/* Left - Animation Placeholder */}
-        <div className="hidden lg:flex items-center justify-center bg-blue-100 p-8">
-          <div className="flex flex-col items-center justify-center text-center">
-            <div className="w-64 h-64 bg-blue-500 rounded-full flex items-center justify-center mb-6 animate-pulse">
-              <User className="h-24 w-24 text-white animate-bounce" />
-            </div>
-            <h3 className="text-2xl font-bold text-gray-700 mb-2">Join TejStarter</h3>
-            <p className="text-gray-500">Start your journey with us</p>
-          </div>
-        </div>
-
-        {/* Right - Form */}
-        <div className="p-10 sm:p-12">
-          <div className="text-center mb-6">
-            <div className="flex justify-center items-center gap-3 mb-4">
-              <div className="p-3 bg-blue-600 rounded-full">
-                <Rocket className="h-6 w-6 text-white" />
-              </div>
-              <h1 className="text-2xl font-bold text-blue-600">
-                TEJSTARTER
-              </h1>
-            </div>
-            <h2 className="text-2xl font-semibold text-gray-800">Create your account</h2>
-            <p className="text-gray-500 text-sm">Start building amazing projects today</p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Full Name */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input type="text" name="name" value={formData.name} onChange={handleInputChange} placeholder="Hashvardhan Patil" required
-                  className="w-full border border-gray-300 rounded-xl py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-              </div>
-            </div>
-
-            {/* Date of Birth - Only for Student */}
-            {formData.role === 'Student' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                  <input type="date" name="dob" value={formData.dob} onChange={handleInputChange} required
-                    className="w-full border border-gray-300 rounded-xl py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                </div>
-              </div>
-            )}
-
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email (Login ID)</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="you@example.com" required
-                  className="w-full border border-gray-300 rounded-xl py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-              </div>
-            </div>
-
-            {/* Phone Number */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-              <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="e.g., 9876543210" pattern="[0-9]{10}" required
-                className="w-full border border-gray-300 rounded-xl py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-            </div>
-
-            {/* Password */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input type={showPassword ? 'text' : 'password'} name="password" value={formData.password} onChange={handleInputChange}
-                  placeholder="Create a password" required
-                  className="w-full border border-gray-300 rounded-xl py-2.5 pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
-              </div>
-              {formData.password && (
-                <div className="mt-2 flex items-center space-x-2">
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className={`h-2 rounded-full ${getStrengthColor()}`} style={{ width: `${(passwordStrength / 5) * 100}%` }}></div>
-                  </div>
-                  <span className="text-xs font-medium text-gray-600">{getStrengthText()}</span>
-                </div>
-              )}
-            </div>
-
-            {/* Confirm Password */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input type={showConfirmPassword ? 'text' : 'password'} name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange}
-                  placeholder="Re-type your password" required
-                  className="w-full border border-gray-300 rounded-xl py-2.5 pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
-                  {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
-              </div>
-            </div>
-
-            {/* Select Role */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Select Role</label>
-              <select name="role" value={formData.role} onChange={handleInputChange} required
-                className="w-full border border-gray-300 rounded-xl py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <option value="">Select your role</option>
-                <option value="Student">Student</option>
-                <option value="Entrepreneur">Entrepreneur</option>
-                <option value="Professional">Professional</option>
-                <option value="Mentor / Investor">Mentor / Investor</option>
-                <option value="College / Company">College / Company</option>
-              </select>
-            </div>
-
-            {/* Education Level - Only for Student */}
-            {formData.role === 'Student' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Education Level</label>
-                <div className="relative">
-                  <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                  <select name="educationLevel" value={formData.educationLevel} onChange={handleInputChange} required
-                    className="w-full border border-gray-300 rounded-xl py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                    <option value="">Select Education Level</option>
-                    <option value="Primary">Primary</option>
-                    <option value="Secondary">Secondary</option>
-                    <option value="post-secondary">Post-secondary (Diploma, BTech, etc.)</option>
-                  </select>
-                </div>
-              </div>
-            )}
-
-            {/* Sub Level - Only for Student when education level is selected */}
-            {formData.role === 'Student' && formData.educationLevel && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select Specific Class / Degree</label>
-                <select name="subLevel" value={formData.subLevel} onChange={handleInputChange} required
-                  className="w-full border border-gray-300 rounded-xl py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                  <option value="">Select Option</option>
-                  {levelOptions[formData.educationLevel]?.map(option => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
-                </select>
-              </div>
-            )}
-
-            {/* Major Field - Only for Student when sub level has major fields */}
-            {formData.role === 'Student' && formData.subLevel && majorFieldsByDegree[formData.subLevel] && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select Field</label>
-                <select name="majorField" value={formData.majorField} onChange={handleInputChange} required
-                  className="w-full border border-gray-300 rounded-xl py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                  <option value="">Select Field</option>
-                  {majorFieldsByDegree[formData.subLevel].map(field => (
-                    <option key={field} value={field}>{field}</option>
-                  ))}
-                </select>
-              </div>
-            )}
-
-            {/* College Selection - Only for Student */}
-            {formData.role === 'Student' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select College</label>
-                <div className="relative">
-                  <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                  <select name="college" value={formData.college} onChange={handleInputChange} required
-                    className="w-full border border-gray-300 rounded-xl py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                    <option value="">Select College</option>
-                    {collegeOptions.map(college => (
-                      <option key={college} value={college}>{college}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            )}
-
-
-
-             {/* State & City */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">State & City</label>
-              <input type="text" name="location" value={formData.location} onChange={handleInputChange}
-                placeholder="e.g., Maharashtra, Mumbai" required
-                className="w-full border border-gray-300 rounded-xl py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-            </div>
-
-
-            {/* Company/Organization URL - Only for non-Students */}
-            {formData.role && formData.role !== 'Student' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Company/Organization URL (optional)</label>
-                <div className="relative">
-                  <Link className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                  <input type="url" name="companyUrl" value={formData.companyUrl} onChange={handleInputChange}
-                    placeholder="https://yourcompany.com" 
-                    className="w-full border border-gray-300 rounded-xl py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                </div>
-              </div>
-            )}
-
-           
-            {/* Upload Resume/Portfolio */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {formData.role === 'Student' ? 'Upload Resume / Portfolio (optional)' : 'Upload Portfolio (optional)'}
-              </label>
-              <input 
-                type="file" 
-                name={formData.role === 'Student' ? 'resume' : 'portfolio'} 
-                onChange={handleInputChange}
-                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                className="w-full border border-gray-300 rounded-xl py-2.5 px-4 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-            </div>
-
-            {/* Terms Agreement */}
-            <div className="flex items-center space-x-2">
-              <input type="checkbox" name="agree" checked={formData.agree} onChange={handleInputChange} required
-                className="h-4 w-4 text-blue-600 border-gray-300 rounded" />
-              <label className="text-sm text-gray-700">
-                I agree to <span className="text-blue-600 font-medium">Terms & Privacy Policy ✅</span>
-              </label>
+      
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Join TejStarter</h1>
+              <p className="text-gray-600">Create your account to start collaborating</p>
             </div>
 
             {/* Error Message */}
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && (
+              <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                {error}
+              </div>
+            )}
 
-            {/* Submit Button */}
-            <button type="submit" disabled={isLoading}
-              className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition">
-              {isLoading ? 'Creating account...' : 'Create account'}
-            </button>
-          </form>
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Basic Information */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Full Name *
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Enter your full name"
+                    />
+                  </div>
+                </div>
 
-          <div className="mt-6 text-center text-sm text-gray-600">
-            Already have an account?{' '}
-            <button onClick={() => navigate('/signin')} className="text-blue-600 hover:underline">
-              Sign in
-            </button>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address *
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Enter your email"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Phone Number *
+                  </label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Enter your phone number"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Role *
+                  </label>
+                  <select
+                    name="role"
+                    value={formData.role}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">Select your role</option>
+                    {roleOptions.map(role => (
+                      <option key={role} value={role}>{role}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Location *
+                  </label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <select
+                      name="location"
+                      value={formData.location}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
+                    >
+                      <option value="">Select your location</option>
+                      {locationOptions.map(location => (
+                        <option key={location} value={location}>{location}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {formData.role === 'Student' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Date of Birth *
+                    </label>
+                    <div className="relative">
+                      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                      <input
+                        type="date"
+                        name="dob"
+                        value={formData.dob}
+                        onChange={handleInputChange}
+                        required={formData.role === 'Student'}
+                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Student-specific fields */}
+              {formData.role === 'Student' && (
+                <div className="space-y-6 p-6 bg-blue-50 rounded-lg">
+                  <h3 className="text-lg font-semibold text-gray-900">Student Information</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Education Level *
+                      </label>
+                      <select
+                        name="educationLevel"
+                        value={formData.educationLevel}
+                        onChange={handleInputChange}
+                        required={formData.role === 'Student'}
+                        className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      >
+                        <option value="">Select education level</option>
+                        {educationLevels.map(level => (
+                          <option key={level} value={level}>{level}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {formData.educationLevel && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Degree/Class *
+                        </label>
+                        <select
+                          name="subLevel"
+                          value={formData.subLevel}
+                          onChange={handleInputChange}
+                          required={formData.role === 'Student'}
+                          className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                          <option value="">Select degree/class</option>
+                          {degreesByLevel[formData.educationLevel]?.map(degree => (
+                            <option key={degree} value={degree}>{degree}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {formData.subLevel && majorFieldsByDegree[formData.subLevel] && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Field of Study *
+                        </label>
+                        <select
+                          name="majorField"
+                          value={formData.majorField}
+                          onChange={handleInputChange}
+                          required={formData.role === 'Student' && majorFieldsByDegree[formData.subLevel]}
+                          className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                          <option value="">Select field of study</option>
+                          {majorFieldsByDegree[formData.subLevel]?.map(field => (
+                            <option key={field} value={field}>{field}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        College/University *
+                      </label>
+                      <div className="relative">
+                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <input
+                          type="text"
+                          name="college"
+                          value={formData.college}
+                          onChange={handleInputChange}
+                          required={formData.role === 'Student'}
+                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="Enter your college/university"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Resume (Optional)
+                      </label>
+                      <div className="relative">
+                        <Upload className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <input
+                          type="file"
+                          name="resume"
+                          onChange={handleInputChange}
+                          accept=".pdf,.doc,.docx"
+                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Non-student fields */}
+              {formData.role && formData.role !== 'Student' && (
+                <div className="space-y-6 p-6 bg-green-50 rounded-lg">
+                  <h3 className="text-lg font-semibold text-gray-900">Professional Information</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Company/Organization URL (Optional)
+                      </label>
+                      <div className="relative">
+                        <Link className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <input
+                          type="url"
+                          name="companyUrl"
+                          value={formData.companyUrl}
+                          onChange={handleInputChange}
+                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="https://yourcompany.com"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Portfolio/Work Samples (Optional)
+                      </label>
+                      <div className="relative">
+                        <Upload className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <input
+                          type="file"
+                          name="portfolio"
+                          onChange={handleInputChange}
+                          accept=".pdf,.doc,.docx,.zip"
+                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Password Section */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Password *
+                  </label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Create a strong password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                  {formData.password && (
+                    <div className="mt-2">
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 bg-gray-200 rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full transition-all ${getStrengthColor()}`}
+                            style={{ width: `${(passwordStrength / 5) * 100}%` }}
+                          />
+                        </div>
+                        <span className="text-sm font-medium text-gray-600">
+                          {getStrengthText()}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Confirm Password *
+                  </label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Confirm your password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                  {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                    <p className="mt-1 text-sm text-red-600">Passwords do not match</p>
+                  )}
+                  {formData.confirmPassword && formData.password === formData.confirmPassword && (
+                    <p className="mt-1 text-sm text-green-600 flex items-center gap-1">
+                      <CheckCircle className="w-4 h-4" />
+                      Passwords match
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Terms and Conditions */}
+              <div className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  name="agree"
+                  checked={formData.agree}
+                  onChange={handleInputChange}
+                  required
+                  className="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label className="text-sm text-gray-700">
+                  I agree to the{' '}
+                  <a href="/terms" className="text-blue-600 hover:underline">
+                    Terms of Service
+                  </a>{' '}
+                  and{' '}
+                  <a href="/privacy" className="text-blue-600 hover:underline">
+                    Privacy Policy
+                  </a>
+                </label>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition duration-200"
+              >
+                {isLoading ? 'Creating Account...' : 'Create Account'}
+              </button>
+
+              {/* Login Link */}
+              <div className="text-center">
+                <p className="text-sm text-gray-600">
+                  Already have an account?{' '}
+                  <button
+                    type="button"
+                    onClick={() => navigate('/signin')}
+                    className="text-blue-600 hover:underline font-medium"
+                  >
+                    Sign in here
+                  </button>
+                </p>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

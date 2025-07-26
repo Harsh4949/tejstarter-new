@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Rocket, Menu, X, Sparkles, Zap } from 'lucide-react';
+import { useAuth } from '../context/AuthContext'; // Adjust the import based on your file structure
 
 const Header = () => {
+  const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Handle scroll effect for glassmorphism
   useEffect(() => {
@@ -28,6 +31,11 @@ const Header = () => {
 
   const handleNavClick = () => {
     setIsMenuOpen(false);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/', { replace: true });
   };
 
   return (

@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, Rocket } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import SEO from '../components/SEO';
-// import Lottie from 'lottie-react';
-// import loginAnimation from '../lottie/login.json.json'; // File doesn't exist yet
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
     if (error) setError('');
   };
 
@@ -22,125 +29,122 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      if (!formData.email || !formData.password) throw new Error('Please fill in all fields');
-      if (!formData.email.includes('@')) throw new Error('Please enter a valid email address');
-      console.log('Login success:', formData);
-      navigate('/');
+      if (!formData.email || !formData.password) {
+        throw new Error('Please enter both email and password');
+      }
+      
+      const result = await login({
+        email: formData.email,
+        password: formData.password
+      });
+      
+      if (result) {
+        navigate('/dashboard', { 
+          state: { 
+            message: 'Welcome back to TejStarter!',
+            isLogin: true
+          }
+        });
+      }
     } catch (err) {
-      setError(err.message || 'Login failed');
+      setError(err.message || 'Login failed. Please check your credentials.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const loginPageSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Login to TejStarter",
-    "description": "Sign in to your TejStarter account to access collaboration opportunities, startup projects, and mentorship programs",
-    "url": "https://tejstarter.com/login"
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center px-6 py-10">
+    <>
       <SEO 
-        title="Login to TejStarter - Access Your Student Collaboration Account"
-        description="Sign in to your TejStarter account to access exclusive collaboration opportunities, startup projects, mentorship programs, and connect with 1000+ students across India."
-        keywords="login tejstarter, student account login, startup platform login, collaboration platform signin, student entrepreneur login"
-        url="/login"
-        type="website"
-        schemaData={loginPageSchema}
+        title="Sign In to TejStarter"
+        description="Sign in to your TejStarter account to access collaboration opportunities and startup projects"
+        keywords="TejStarter login, student collaboration, startup signin"
       />
-      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 bg-white shadow-2xl rounded-3xl overflow-hidden">
-        {/* Left Side Animation Placeholder */}
-        <div className="hidden lg:flex items-center justify-center bg-gradient-to-br from-indigo-100 via-blue-100 to-white p-8">
-          <div className="text-center">
-            <div className="animate-bounce mb-6">
-              <Rocket className="h-32 w-32 text-blue-600 mx-auto" />
-            </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Welcome Back!</h2>
-            <p className="text-gray-600">Sign in to access your collaboration dashboard</p>
-          </div>
-        </div>
-
-        {/* Right Side Login Form */}
-        <div className="p-10 sm:p-12">
-          <div className="text-center mb-6">
-            <div className="flex justify-center items-center gap-3 mb-4">
-              <div className="p-3 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full">
-                <Rocket className="h-6 w-6 text-white" />
-              </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                TEJSTARTER
-              </h1>
-            </div>
-            <h2 className="text-2xl font-semibold text-gray-800">Welcome back</h2>
-            <p className="text-gray-500 text-sm">Sign in to your account</p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="you@example.com"
-                  className="w-full border border-gray-300 rounded-xl py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                />
-              </div>
-            </div>
-
-            {/* Password */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="Enter your password"
-                  className="w-full border border-gray-300 rounded-xl py-2.5 pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
-              </div>
+      
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md mx-auto">
+          <div className="bg-white rounded-2xl shadow-xl p-8">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
+              <p className="text-gray-600">Sign in to your TejStarter account</p>
             </div>
 
             {/* Error Message */}
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && (
+              <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                {error}
+              </div>
+            )}
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-lg transition"
-            >
-              {isLoading ? 'Signing in...' : 'Sign in'}
-            </button>
-          </form>
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Enter your email"
+                  />
+                </div>
+              </div>
 
-          {/* Sign Up Redirect */}
-          <div className="mt-6 text-center text-sm text-gray-600">
-            Don't have an account?{' '}
-            <button onClick={() => navigate('/signup')} className="text-indigo-600 hover:underline">
-              Sign up
-            </button>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Enter your password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition duration-200"
+              >
+                {isLoading ? 'Signing In...' : 'Sign In'}
+              </button>
+
+              <div className="text-center">
+                <p className="text-sm text-gray-600">
+                  Don't have an account?{' '}
+                  <Link to="/signup" className="text-blue-600 hover:underline font-medium">
+                    Sign up here
+                  </Link>
+                </p>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
