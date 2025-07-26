@@ -28,7 +28,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/stories" element={<Stories />} />
-            <Route path="*" element={<div style={{padding: '2rem', fontSize: '1.5rem', color: 'red'}}>404: Page not found</div>} />
+            <Route path="*" element={<Homepage />} />
           </Routes>
         </main>
         <Footer />

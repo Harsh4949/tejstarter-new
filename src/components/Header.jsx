@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Rocket, Menu, X, Sparkles, Zap } from 'lucide-react';
-import { useAuth } from '../context/AuthContext'; // Adjust the import based on your file structure
+import { Rocket, Menu, X, Sparkles, Zap, User, LogOut } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Header = () => {
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -31,10 +32,13 @@ const Header = () => {
 
   const handleNavClick = () => {
     setIsMenuOpen(false);
+    setShowUserMenu(false);
   };
 
   const handleLogout = async () => {
     await logout();
+    setShowUserMenu(false);
+    setIsMenuOpen(false);
     navigate('/', { replace: true });
   };
 
@@ -94,24 +98,65 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* CTA Buttons */}
+          {/* Desktop CTA Buttons - Show different options based on user status */}
           <div className="flex items-center space-x-3">
-            <Link 
-              to="/signin" 
-              className="group relative px-6 py-2.5 font-bold text-sm text-gray-700 hover:text-blue-600 transition-all duration-300 rounded-xl hover:bg-blue-50 hover:scale-105"
-            >
-              <span className="relative z-10">Sign in</span>
-            </Link>
-            <Link 
-              to="/signup" 
-              className="group relative overflow-hidden px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-sm rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/50"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <span className="relative z-10 flex items-center space-x-2">
-                <span>Get Started</span>
-                <Zap className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
-              </span>
-            </Link>
+            {user ? (
+              // User is logged in - show profile menu
+              <div className="relative">
+                <button 
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="group relative flex items-center space-x-2 px-6 py-2.5 font-bold text-sm text-gray-700 hover:text-blue-600 transition-all duration-300 rounded-xl hover:bg-blue-50 hover:scale-105"
+                >
+                  <User className="h-4 w-4" />
+                  <span className="relative z-10">{user.name}</span>
+                </button>
+                
+                {/* User Dropdown Menu */}
+                {showUserMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white/95 backdrop-blur-xl shadow-2xl shadow-blue-500/10 rounded-2xl border border-blue-100 overflow-hidden">
+                    <Link 
+                      to="/dashboard" 
+                      onClick={handleNavClick}
+                      className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <User className="h-4 w-4" />
+                        <span>Dashboard</span>
+                      </div>
+                    </Link>
+                    <button 
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <LogOut className="h-4 w-4" />
+                        <span>Logout</span>
+                      </div>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // User is not logged in - show sign in and get started buttons
+              <>
+                <Link 
+                  to="/login" 
+                  className="group relative px-6 py-2.5 font-bold text-sm text-gray-700 hover:text-blue-600 transition-all duration-300 rounded-xl hover:bg-blue-50 hover:scale-105"
+                >
+                  <span className="relative z-10">Sign in</span>
+                </Link>
+                <Link 
+                  to="/signup" 
+                  className="group relative overflow-hidden px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-sm rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/50"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="relative z-10 flex items-center space-x-2">
+                    <span>Get Started</span>
+                    <Zap className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
+                  </span>
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
@@ -176,26 +221,54 @@ const Header = () => {
                   </Link>
                 ))}
                 
-                {/* Mobile CTA Buttons */}
+                {/* Mobile CTA Buttons - Different based on user status */}
                 <div className="flex flex-col space-y-3 pt-6 border-t border-blue-100 mt-4">
-                  <Link 
-                    to="/signin" 
-                    onClick={handleNavClick} 
-                    className="group relative px-6 py-3 font-bold text-base text-center text-gray-700 hover:text-blue-600 transition-all duration-300 rounded-xl hover:bg-blue-50 transform hover:scale-105"
-                  >
-                    <span className="relative z-10">Sign in</span>
-                  </Link>
-                  <Link 
-                    to="/signup" 
-                    onClick={handleNavClick} 
-                    className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-base text-center rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/50"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <span className="relative z-10 flex items-center justify-center space-x-2">
-                      <span>Get Started</span>
-                      <Zap className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
-                    </span>
-                  </Link>
+                  {user ? (
+                    // User is logged in - show dashboard and logout
+                    <>
+                      <Link 
+                        to="/dashboard" 
+                        onClick={handleNavClick} 
+                        className="group relative px-6 py-3 font-bold text-base text-center text-gray-700 hover:text-blue-600 transition-all duration-300 rounded-xl hover:bg-blue-50 transform hover:scale-105"
+                      >
+                        <span className="relative z-10 flex items-center justify-center space-x-2">
+                          <User className="h-4 w-4" />
+                          <span>Dashboard</span>
+                        </span>
+                      </Link>
+                      <button 
+                        onClick={handleLogout} 
+                        className="group relative px-6 py-3 font-bold text-base text-center text-red-600 hover:text-red-700 transition-all duration-300 rounded-xl hover:bg-red-50 transform hover:scale-105"
+                      >
+                        <span className="relative z-10 flex items-center justify-center space-x-2">
+                          <LogOut className="h-4 w-4" />
+                          <span>Logout</span>
+                        </span>
+                      </button>
+                    </>
+                  ) : (
+                    // User is not logged in - show sign in and get started
+                    <>
+                      <Link 
+                        to="/login" 
+                        onClick={handleNavClick} 
+                        className="group relative px-6 py-3 font-bold text-base text-center text-gray-700 hover:text-blue-600 transition-all duration-300 rounded-xl hover:bg-blue-50 transform hover:scale-105"
+                      >
+                        <span className="relative z-10">Sign in</span>
+                      </Link>
+                      <Link 
+                        to="/signup" 
+                        onClick={handleNavClick} 
+                        className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-base text-center rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/50"
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <span className="relative z-10 flex items-center justify-center space-x-2">
+                          <span>Get Started</span>
+                          <Zap className="h-4 w-4 group-hover:rotate-12 transition-transform duration-300" />
+                        </span>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </nav>
             </div>
