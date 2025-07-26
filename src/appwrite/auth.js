@@ -45,7 +45,6 @@ class AuthService {
             if (error.code === 401 || error.message?.includes('missing scope') || error.message?.includes('guests')) {
                 return null; // User not logged in - this is normal
             }
-            console.error('Appwrite service :: getCurrentUser :: error', error);
             return null;
         }
     }
@@ -56,6 +55,10 @@ class AuthService {
             await account.deleteSessions();
             return true;
         } catch (error) {
+            // Don't log logout errors for guests - this is expected
+            if (error.message?.includes('guests') || error.message?.includes('missing scope')) {
+                return true; // Consider it successful
+            }
             console.error('Appwrite service :: logout :: error', error);
             return false;
         }

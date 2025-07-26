@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, User, Mail, Phone, MapPin, Building } from 'lucide-react';
 
 const Dashboard = () => {
-  const { user, userProfile, logout } = useAuth();
+  const { user, userProfile, logout, loading } = useAuth();
   const navigate = useNavigate();
+
+  // Fix: Use useEffect to prevent setState during render
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/login', { replace: true });
+    }
+  }, [user, loading, navigate]);
 
   const handleLogout = async () => {
     const success = await logout();
@@ -14,8 +21,20 @@ const Dashboard = () => {
     }
   };
 
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render anything if no user (navigation will happen in useEffect)
   if (!user) {
-    navigate('/signin', { replace: true });
     return null;
   }
 

@@ -31,13 +31,10 @@ export const AuthProvider = ({ children }) => {
                 const profile = await databaseService.getUserProfile(userData.$id);
                 setUserProfile(profile);
             } else {
-                // No user logged in - this is normal
                 setUser(null);
                 setUserProfile(null);
             }
         } catch (error) {
-            // Only log unexpected errors
-            console.error('Error getting current user:', error);
             setUser(null);
             setUserProfile(null);
         } finally {
@@ -49,8 +46,10 @@ export const AuthProvider = ({ children }) => {
         try {
             setLoading(true);
             
-            // First, logout any existing session
-            await authService.logout();
+            // Only logout if there's an active session
+            if (user) {
+                await authService.logout();
+            }
             
             // Upload file if present
             let fileId = null;
@@ -116,8 +115,10 @@ export const AuthProvider = ({ children }) => {
         try {
             setLoading(true);
             
-            // First, logout any existing session
-            await authService.logout();
+            // Only logout if there's an active session
+            if (user) {
+                await authService.logout();
+            }
             
             const userData = await authService.login({ email, password });
             if (userData) {
@@ -139,13 +140,18 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             setLoading(true);
-            await authService.logout();
+            // Only attempt logout if user is logged in
+            if (user) {
+                await authService.logout();
+            }
             setUser(null);
             setUserProfile(null);
             return true;
         } catch (error) {
-            console.error('Logout error:', error);
-            return false;
+            // Even if logout fails, clear local state
+            setUser(null);
+            setUserProfile(null);
+            return true; // Return true anyway to allow navigation
         } finally {
             setLoading(false);
         }
