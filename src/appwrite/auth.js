@@ -88,6 +88,28 @@ class AuthService {
         }
     }
 
+    // Send OTP to email
+    async sendEmailOTP(email) {
+        try {
+            const response = await account.createEmailToken(ID.unique(), email, true); // true = security phrase enabled
+            return response; // includes userId, secret, phrase
+        } catch (error) {
+            console.error('AuthService :: sendEmailOTP :: error', error);
+            throw error;
+        }
+    }
+
+    // Verify OTP and create session
+    async verifyEmailOTP(userId, otp) {
+        try {
+            const session = await account.createSession(userId, otp);
+            return session;
+        } catch (error) {
+            console.error('AuthService :: verifyEmailOTP :: error', error);
+            throw error;
+        }
+    }
+
     // Password recovery
     async recoverPassword(email) {
         try {

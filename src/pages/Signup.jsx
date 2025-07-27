@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, User, Phone, MapPin, Calendar, Building2, Link, Upload, CheckCircle } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, Phone, MapPin, Calendar, Building2, Link, Upload, CheckCircle, ShieldCheck, ShieldAlert } from 'lucide-react';
 import SEO from '../components/SEO';
 import { useAuth } from '../context/AuthContext';
+import OtpVerificationDialog from '../components/OtpVerificationDialog';
+import authService from '../appwrite/auth.js';
+
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -32,7 +35,9 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [passwordStrength, setPasswordStrength] = useState(0);
-
+  const [otpDialogOpen, setOtpDialogOpen] = useState(false);
+  const [emailOtpData, setEmailOtpData] = useState({ userId: '', email: '' });
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
   // Education options
   const educationLevels = [
     'High School',
@@ -64,8 +69,54 @@ const Signup = () => {
   ];
 
   const locationOptions = [
-    'Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune', 'Ahmedabad', 'Jaipur', 'Lucknow', 'Other'
+    "Ahmednagar",
+    "Akola",
+    "Amravati",
+    "Aurangabad",
+    "Beed",
+    "Bhandara",
+    "Buldhana",
+    "Chandrapur",
+    "Dhule",
+    "Gadchiroli",
+    "Gondia",
+    "Hingoli",
+    "Jalgaon",
+    "Jalna",
+    "Kolhapur",
+    "Latur",
+    "Mumbai City",
+    "Mumbai Suburban",
+    "Nagpur",
+    "Nanded",
+    "Nandurbar",
+    "Nashik",
+    "Osmanabad",
+    "Palghar",
+    "Parbhani",
+    "Pune",
+    "Raigad",
+    "Ratnagiri",
+    "Sangli",
+    "Satara",
+    "Sindhudurg",
+    "Solapur",
+    "Thane",
+    "Wardha",
+    "Washim",
+    "Yavatmal",
+    "Other"
   ];
+
+  useEffect(() => {
+    
+    if (isEmailVerified) {
+      alert('Email verified successfully!');
+    } else {
+      alert('Please verify your email to complete the signup process.');
+    }
+
+  }, [isEmailVerified]);
 
   // Password strength calculation
   useEffect(() => {
@@ -85,8 +136,32 @@ const Signup = () => {
     calculateStrength();
   }, [formData.password]);
 
+  const handleSendOtp = async () => {
+  setError('');
+  
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!formData.email || !emailRegex.test(formData.email)) {
+    setError('Please enter a valid email address');
+    return;
+  }
+
+  setIsLoading(true);
+
+  try {
+    const response = await authService.sendEmailOTP(formData.email);
+    setEmailOtpData(response); // contains userId, secret, phrase
+    setOtpDialogOpen(true);    // show the OTP dialog
+  } catch (err) {
+    console.error("Failed to send OTP:", err);
+    setError(err.message || 'Failed to send OTP. Please try again.');
+  } finally {
+    setIsLoading(false);
+  }
+};
+
   const handleInputChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
+  const { name, value, type, checked, files } = e.target;
     
     setFormData(prev => ({
       ...prev,
@@ -198,6 +273,7 @@ const Signup = () => {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <div className="bg-white rounded-2xl shadow-xl p-8">
+            
             {/* Header */}
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">Join TejStarter</h1>
@@ -215,6 +291,7 @@ const Signup = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Basic Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Full Name *
@@ -249,6 +326,31 @@ const Signup = () => {
                       placeholder="Enter your email"
                     />
                   </div>
+
+                  {/* Send OTP Button */}
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    disabled={!formData.email || isLoading || !isEmailVerified}
+                    className="mt-3 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                  >
+                    {isLoading ? "Sending OTP..." : "Send OTP"}
+                  </button>
+
+                  {/* OTP Verification Dialog */}
+                  {otpDialogOpen && (
+                    <OtpVerificationDialog
+                      emailOtpData={emailOtpData}
+                      onClose={() => setOtpDialogOpen(false)}
+                      onVerified={(session) => {
+                        
+                        console.log("✅ OTP Verified:", session);
+                        setOtpDialogOpen(false);
+                        setIsEmailVerified(true);
+
+                      }}
+                    />
+                  )}
                 </div>
 
                 <div>
@@ -601,4 +703,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
