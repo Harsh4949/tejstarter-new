@@ -108,15 +108,6 @@ const Signup = () => {
     "Other"
   ];
 
-  useEffect(() => {             // Initialize email verification state
-    
-    if (isEmailVerified) {
-      alert('Email verified successfully!');
-    } else {
-      alert('Please verify your email to complete the signup process.');
-    }
-
-  }, [isEmailVerified]);
 
   // Password strength calculation
   useEffect(() => {
@@ -186,7 +177,7 @@ const Signup = () => {
       if (!name || !email || !phone || !password || !confirmPassword || !role || !location) {
         throw new Error('Please fill in all required fields');
       }
-      
+
       if (!isEmailVerified) {
         alert('Please verify your email to complete the signup process.');
         return;
