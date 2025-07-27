@@ -108,7 +108,7 @@ const Signup = () => {
     "Other"
   ];
 
-  useEffect(() => {
+  useEffect(() => {             // Initialize email verification state
     
     if (isEmailVerified) {
       alert('Email verified successfully!');
@@ -185,6 +185,11 @@ const Signup = () => {
       // Validation
       if (!name || !email || !phone || !password || !confirmPassword || !role || !location) {
         throw new Error('Please fill in all required fields');
+      }
+      
+      if (!isEmailVerified) {
+        alert('Please verify your email to complete the signup process.');
+        return;
       }
       
       if (role === 'Student') {
