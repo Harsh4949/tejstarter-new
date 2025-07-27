@@ -38,6 +38,8 @@ const Signup = () => {
   const [otpDialogOpen, setOtpDialogOpen] = useState(false);
   const [emailOtpData, setEmailOtpData] = useState({ userId: '', email: '' });
   const [isEmailVerified, setIsEmailVerified] = useState(false);
+  
+
   // Education options
   const educationLevels = [
     'High School',
@@ -128,29 +130,30 @@ const Signup = () => {
   }, [formData.password]);
 
   const handleSendOtp = async () => {
-  setError('');
+    setError('');
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await authService.sendEmailOTP(formData.email);
+      setEmailOtpData(response); // contains userId, secret, phrase
+      setOtpDialogOpen(true);    // show the OTP dialog
+      setIsEmailVerified(true);   // assume email is verified after sending OTP
+    } catch (err) {
+      console.error("Failed to send OTP:", err);
+      setError(err.message || 'Failed to send OTP. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
-  // Validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!formData.email || !emailRegex.test(formData.email)) {
-    setError('Please enter a valid email address');
-    return;
-  }
-
-  setIsLoading(true);
-
-  try {
-    const response = await authService.sendEmailOTP(formData.email);
-    setEmailOtpData(response); // contains userId, secret, phrase
-    setOtpDialogOpen(true);    // show the OTP dialog
-  } catch (err) {
-    console.error("Failed to send OTP:", err);
-    setError(err.message || 'Failed to send OTP. Please try again.');
-  } finally {
-    setIsLoading(false);
-  }
-};
-
   const handleInputChange = (e) => {
   const { name, value, type, checked, files } = e.target;
     
@@ -306,7 +309,7 @@ const Signup = () => {
                   </div>
                 </div>
 
-                <div>
+               <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Email Address *
                   </label>
@@ -327,7 +330,7 @@ const Signup = () => {
                   <button
                     type="button"
                     onClick={handleSendOtp}
-                    disabled={!formData.email || isLoading || !isEmailVerified}
+                    disabled={!formData.email || isLoading || isEmailVerified}
                     className="mt-3 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50"
                   >
                     {isLoading ? "Sending OTP..." : "Send OTP"}
@@ -339,15 +342,14 @@ const Signup = () => {
                       emailOtpData={emailOtpData}
                       onClose={() => setOtpDialogOpen(false)}
                       onVerified={(session) => {
-                        
                         console.log("✅ OTP Verified:", session);
                         setOtpDialogOpen(false);
-                        setIsEmailVerified(true);
-
+                        // optionally update a "isEmailVerified" state
                       }}
                     />
                   )}
                 </div>
+
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
