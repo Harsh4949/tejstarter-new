@@ -330,7 +330,7 @@ const Signup = () => {
                   <button
                     type="button"
                     onClick={handleSendOtp}
-                    disabled={!formData.email || isLoading || isEmailVerified}
+                    disabled={!formData.email || isEmailVerified}
                     className="mt-3 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50"
                   >
                     {isLoading ? "Sending OTP..." : "Send OTP"}
