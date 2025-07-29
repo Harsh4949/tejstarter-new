@@ -34,6 +34,8 @@ function App() {
         <Footer />
       </div>
     </AuthProvider>
+
+    // this is demo chages done by sakib for testing pull req;
   );
 }
 
