@@ -8,8 +8,55 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 35;
+      setIsScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId) => {
+    if (location.pathname !== '/') {
+      // If not on home page, navigate to home first then scroll to section
+      window.location.href = `/#${sectionId}`;
+      // Use setTimeout to ensure navigation completes before scrolling
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const headerOffset = 70;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    } else {
+      // If on home page, scroll to section
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const headerOffset = 70; // Account for fixed header
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+    setMobileMenuOpen(false);
+  };
 
   // Handle scroll effect for glassmorphism
   useEffect(() => {
@@ -24,22 +71,27 @@ const Header = () => {
     { id: 'home', label: 'Home', path: '/' },
     { id: 'launchpad', label: 'Launchpad', path: '/launchpad' },
     { id: 'about', label: 'About', path: '/about' },
-    { id: 'collaboration', label: ' Collaboration', path: '/collaboration' },
+    { id: 'collaboration', label: 'Collaboration', path: '/collaboration' },
     { id: 'stories', label: 'Stories', path: '/stories' }
   ];
 
   const isActive = (path) => location.pathname === path;
 
+  // Updated handleNavClick to include scroll to top
   const handleNavClick = () => {
     setIsMenuOpen(false);
     setShowUserMenu(false);
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleLogout = async () => {
     await logout();
     setShowUserMenu(false);
     setIsMenuOpen(false);
+    setMobileMenuOpen(false);
     navigate('/', { replace: true });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -55,7 +107,13 @@ const Header = () => {
         {/* Desktop Header */}
         <div className="hidden lg:flex justify-between items-center h-20">
           {/* Logo Section */}
-          <Link to="/" className="group flex items-center space-x-3 cursor-pointer">
+          <Link 
+            to="/" 
+            className="group flex items-center space-x-3 cursor-pointer"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
             <div className="relative">
               <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl opacity-15 group-hover:opacity-25 transition-opacity duration-300 blur-lg"></div>
               <div className="relative bg-gradient-to-r from-blue-600 to-blue-700 p-3 rounded-2xl group-hover:from-blue-700 group-hover:to-blue-800 transition-all duration-300 transform group-hover:scale-110 shadow-xl">
@@ -76,27 +134,31 @@ const Header = () => {
           </Link>
 
           {/* Navigation */}
-          <nav className="flex items-center space-x-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.id}
-                to={item.path}
-                className={`relative group px-4 py-2 rounded-xl font-semibold text-sm tracking-wide transition-all duration-300 ${
-                  isActive(item.path)
-                    ? 'text-white bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg shadow-blue-500/30 transform scale-105'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50 hover:scale-105'
-                }`}
-              >
-                {!isActive(item.path) && (
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/5 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                )}
-                <span className="relative z-10">{item.label}</span>
-                {isActive(item.path) && (
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rounded-full shadow-lg"></div>
-                )}
-              </Link>
-            ))}
-          </nav>
+            <nav className="flex items-center space-x-3">
+              {navItems.map((item) => (
+                <Link
+                  key={item.id}
+                  to={item.path}
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className={`relative group px-4 py-2 rounded-xl font-semibold text-sm tracking-wide transition-all duration-300 ${
+                    isActive(item.path)
+                      ? 'text-white bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg shadow-blue-500/30 transform scale-105'
+                      : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50 hover:scale-105'
+                  }`}
+                >
+                  {!isActive(item.path) && (
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/5 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  )}
+                  <span className="relative z-10">{item.label}</span>
+                  {isActive(item.path) && (
+                    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rounded-full shadow-lg"></div>
+                  )}
+
+                </Link>
+              ))}
+            </nav>
 
           {/* Desktop CTA Buttons - Show different options based on user status */}
           <div className="flex items-center space-x-3">
@@ -116,7 +178,10 @@ const Header = () => {
                   <div className="absolute right-0 mt-2 w-48 bg-white/95 backdrop-blur-xl shadow-2xl shadow-blue-500/10 rounded-2xl border border-blue-100 overflow-hidden">
                     <Link 
                       to="/dashboard" 
-                      onClick={handleNavClick}
+                      onClick={() => {
+                        handleNavClick();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
                       className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200"
                     >
                       <div className="flex items-center space-x-2">
@@ -141,12 +206,18 @@ const Header = () => {
               <>
                 <Link 
                   to="/login" 
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
                   className="group relative px-6 py-2.5 font-bold text-sm text-gray-700 hover:text-blue-600 transition-all duration-300 rounded-xl hover:bg-blue-50 hover:scale-105"
                 >
                   <span className="relative z-10">Sign in</span>
                 </Link>
                 <Link 
                   to="/signup" 
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
                   className="group relative overflow-hidden px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-sm rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/50"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -163,7 +234,14 @@ const Header = () => {
         {/* Mobile Header */}
         <div className="flex lg:hidden justify-between items-center h-16 sm:h-18">
           {/* Mobile Logo */}
-          <Link to="/" className="group flex items-center space-x-2 cursor-pointer" onClick={handleNavClick}>
+          <Link 
+            to="/" 
+            className="group flex items-center space-x-2 cursor-pointer" 
+            onClick={() => {
+              handleNavClick();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl opacity-15 group-hover:opacity-25 transition-opacity duration-300 blur-md"></div>
               <div className="relative bg-gradient-to-r from-blue-600 to-blue-700 p-2.5 rounded-xl group-hover:from-blue-700 group-hover:to-blue-800 transition-all duration-300 transform group-hover:scale-110 shadow-lg">
@@ -206,7 +284,11 @@ const Header = () => {
                   <Link
                     key={item.id}
                     to={item.path}
-                    onClick={handleNavClick}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setIsMenuOpen(false);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
                     className={`group relative px-4 py-3 rounded-xl font-semibold text-base tracking-wide transition-all duration-300 transform hover:scale-105 ${
                       isActive(item.path)
                         ? 'text-white bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg shadow-blue-500/30'
@@ -228,7 +310,10 @@ const Header = () => {
                     <>
                       <Link 
                         to="/dashboard" 
-                        onClick={handleNavClick} 
+                        onClick={() => {
+                          handleNavClick();
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
                         className="group relative px-6 py-3 font-bold text-base text-center text-gray-700 hover:text-blue-600 transition-all duration-300 rounded-xl hover:bg-blue-50 transform hover:scale-105"
                       >
                         <span className="relative z-10 flex items-center justify-center space-x-2">
@@ -251,14 +336,22 @@ const Header = () => {
                     <>
                       <Link 
                         to="/login" 
-                        onClick={handleNavClick} 
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          setIsMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
                         className="group relative px-6 py-3 font-bold text-base text-center text-gray-700 hover:text-blue-600 transition-all duration-300 rounded-xl hover:bg-blue-50 transform hover:scale-105"
                       >
                         <span className="relative z-10">Sign in</span>
                       </Link>
                       <Link 
                         to="/signup" 
-                        onClick={handleNavClick} 
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          setIsMenuOpen(false);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
                         className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-base text-center rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/50"
                       >
                         <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
