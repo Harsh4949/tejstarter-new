@@ -145,7 +145,6 @@ const Signup = () => {
       const response = await authService.sendEmailOTP(formData.email);
       setEmailOtpData(response); // contains userId, secret, phrase
       setOtpDialogOpen(true);    // show the OTP dialog
-      setIsEmailVerified(true);   // assume email is verified after sending OTP
     } catch (err) {
       console.error("Failed to send OTP:", err);
       setError(err.message || 'Failed to send OTP. Please try again.');
@@ -344,6 +343,7 @@ const Signup = () => {
                       onVerified={(session) => {
                         console.log("✅ OTP Verified:", session);
                         setOtpDialogOpen(false);
+                          setIsEmailVerified(true);
                         // optionally update a "isEmailVerified" state
                       }}
                     />
