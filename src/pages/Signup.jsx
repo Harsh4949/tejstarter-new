@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import OtpVerificationDialog from '../components/OtpVerificationDialog';
 import authService from '../appwrite/auth.js';
 import { Dialog } from '@headlessui/react'
+import ReactMarkdown from 'react-markdown'
 const Signup = () => {
   const navigate = useNavigate();
   const { signup, login } = useAuth();
@@ -40,16 +41,95 @@ const Signup = () => {
   const [showTerms, setShowTerms] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
 
-   const contentMap = {
-    terms: {
-      title: "Terms and Conditions",
-      content: `Welcome to TejStarter! These Terms and Conditions govern your use of our website and services...`,
-    },
-    privacy: {
-      title: "Privacy Policy",
-      content: `We value your privacy. This Privacy Policy explains how TejStarter collects, uses, and protects your personal data...`,
-    },
-  };
+  const termsMarkdown = `
+Welcome to TejStarter! These Terms and Conditions ("Terms") govern your use of our website, www.tejstarter.in ("Website"), and the services provided by TejStarter. By accessing or using our Website, you agree to comply with and be bound by these Terms. If you do not agree to these Terms, please do not use our Website.
+
+### 1. Use of the Website
+- You must be at least 18 years old or accessing the Website under the supervision of a parent or legal guardian.
+- You agree to use the Website for lawful purposes only and not to engage in any activity that could harm, disrupt, or misuse the platform or other users.
+
+### 2. Account Registration
+- To access certain features, you may need to create an account. You are responsible for maintaining the confidentiality of your login information and all activities under your account.
+- You must provide accurate, complete, and up-to-date information.
+
+### 3. Services Offered
+- TejStarter offers a platform for students, professionals, and entrepreneurs to collaborate, develop projects, and explore startup opportunities.
+- We do not guarantee the success or funding of any project or collaboration initiated through our platform.
+
+### 4. Intellectual Property
+- All content, designs, logos, and materials on the Website are the intellectual property of TejStarter or its licensors.
+- You may not reproduce, distribute, modify, or use any content from the Website without prior written consent.
+
+### 5. User-Generated Content
+- By submitting content (ideas, projects, comments, etc.) to the Website, you grant us a non-exclusive, royalty-free license to use, display, and promote such content.
+- You are solely responsible for any content you upload and agree not to post anything illegal, offensive, or infringing.
+
+### 6. Limitation of Liability
+- TejStarter shall not be liable for any direct, indirect, incidental, or consequential damages resulting from your use or inability to use the Website or services.
+- We make no warranties regarding the accuracy, reliability, or completeness of the content on the Website.
+
+### 7. Third-Party Links
+- Our Website may contain links to third-party websites. We are not responsible for the content, terms, or privacy practices of these external sites.
+
+### 8. Termination
+- We reserve the right to suspend or terminate your access to the Website at any time, without notice, for any conduct that we believe violates these Terms.
+
+### 9. Changes to Terms
+- We may update these Terms at any time. Changes will be effective immediately upon posting on the Website. Your continued use of the Website after changes constitutes your acceptance of the updated Terms.
+
+**Contact us** if you have any questions.
+`
+const privacyMarkdown = `
+
+**Company Name**: TejStarter  
+**Email**: tejaspawar2823@gmail.com  
+**Phone**: +91 8600450851
+
+At TejStarter, we are committed to protecting your privacy. This Privacy Policy outlines how we collect, use, share, and protect your personal information when you interact with us through our website or services.
+
+### 1. Information We Collect
+We may collect the following types of personal information:
+- Name, phone number, email address
+- Billing and shipping address
+- Payment and transaction details (processed securely via third-party gateways)
+- Information you voluntarily provide through forms, surveys, or customer support interactions
+
+### 2. How We Use Your Information
+We use the information we collect to:
+- Process and fulfill your orders
+- Provide customer service and respond to inquiries
+- Improve our products, services, and user experience
+- Send you updates, promotional offers, or service notifications (only if you opt-in)
+
+### 3. Sharing of Information
+We do not sell or rent your personal information. However, we may share it with:
+- Trusted service providers (e.g., payment processors, delivery partners)
+- Legal or regulatory authorities if required by law
+
+### 4. Data Security
+We use appropriate security measures to safeguard your data against unauthorized access, alteration, or disclosure. However, no method of transmission over the internet is 100% secure.
+
+### 5. Your Rights
+You have the right to:
+- Access the personal data we hold about you
+- Request correction or deletion of your information
+- Withdraw consent for marketing communications at any time
+
+### 6. Cookies
+Our website may use cookies and similar technologies to enhance your browsing experience. You can manage your cookie preferences through your browser settings.
+
+### 7. External Links
+Our website may contain links to third-party websites. We are not responsible for the privacy practices of those sites.
+
+### 8. Policy Updates
+We may update this Privacy Policy from time to time. Any changes will be posted on this page. Continued use of our services after updates constitutes your acceptance of the revised policy.
+
+### 9. Contact Us
+If you have any questions or concerns regarding this Privacy Policy, you can contact us at:  
+📧 Email: tejaspawar2823@gmail.com  
+📞 Phone: +91 8600450851
+`
+
 
   // Education options
   const educationLevels = [
@@ -689,45 +769,44 @@ const Signup = () => {
         </label>
       </div>
 
-      {/* Terms Modal */}
-          <Dialog open={showTerms} onClose={() => setShowTerms(false)} className="relative z-50">
-            <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
-            <div className="fixed inset-0 flex items-center justify-center p-4">
-              <Dialog.Panel className="w-full max-w-lg rounded bg-white p-6 shadow-lg">
-                <Dialog.Title className="text-lg font-bold">Terms of Service</Dialog.Title>
-                <Dialog.Description className="mt-2 text-sm text-gray-600">
-                  {/* Replace with real terms */}
-                  These are the terms of service. You must agree to proceed with registration.
-                </Dialog.Description>
-                <button
-                  onClick={() => setShowTerms(false)}
-                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-                >
-                  Close
-                </button>
-              </Dialog.Panel>
-            </div>
-          </Dialog>
+         {/* Terms Modal */}
+            <Dialog open={showTerms} onClose={() => setShowTerms(false)} className="relative z-50">
+              <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
+              <div className="fixed inset-0 flex items-center justify-center p-4">
+                <Dialog.Panel className="w-full max-w-lg rounded bg-white p-6 shadow-lg max-h-[80vh] overflow-y-auto">
+                  <Dialog.Title className="text-lg font-bold">Terms of Service</Dialog.Title>
+                  <div className="mt-2 text-sm text-gray-700 prose prose-sm">
+                    <ReactMarkdown>{termsMarkdown}</ReactMarkdown>
+                  </div>
+                  <button
+                    onClick={() => setShowTerms(false)}
+                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+                  >
+                    Close
+                  </button>
+                </Dialog.Panel>
+              </div>
+            </Dialog>
 
-          {/* Privacy Modal */}
-          <Dialog open={showPrivacy} onClose={() => setShowPrivacy(false)} className="relative z-50">
-            <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
-            <div className="fixed inset-0 flex items-center justify-center p-4">
-              <Dialog.Panel className="w-full max-w-lg rounded bg-white p-6 shadow-lg">
-                <Dialog.Title className="text-lg font-bold">Privacy Policy</Dialog.Title>
-                <Dialog.Description className="mt-2 text-sm text-gray-600">
-                  {/* Replace with real policy */}
-                  This is our privacy policy. Your data is safe and won’t be shared.
-                </Dialog.Description>
-                <button
-                  onClick={() => setShowPrivacy(false)}
-                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-                >
-                  Close
-                </button>
-              </Dialog.Panel>
-            </div>
-          </Dialog>
+            {/* Privacy Modal */}
+            <Dialog open={showPrivacy} onClose={() => setShowPrivacy(false)} className="relative z-50">
+              <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
+              <div className="fixed inset-0 flex items-center justify-center p-4">
+                <Dialog.Panel className="w-full max-w-lg rounded bg-white p-6 shadow-lg max-h-[80vh] overflow-y-auto">
+                  <Dialog.Title className="text-lg font-bold">Privacy Policy</Dialog.Title>
+                  <div className="mt-2 text-sm text-gray-700 prose prose-sm">
+                    <ReactMarkdown>{privacyMarkdown}</ReactMarkdown>
+                  </div>
+                  <button
+                    onClick={() => setShowPrivacy(false)}
+                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+                  >
+                    Close
+                  </button>
+                </Dialog.Panel>
+              </div>
+            </Dialog>
+
 
               {/* Submit Button */}
               <button
