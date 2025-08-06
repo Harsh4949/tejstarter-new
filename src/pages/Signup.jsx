@@ -5,8 +5,7 @@ import SEO from '../components/SEO';
 import { useAuth } from '../context/AuthContext';
 import OtpVerificationDialog from '../components/OtpVerificationDialog';
 import authService from '../appwrite/auth.js';
-
-
+import { Dialog } from '@headlessui/react'
 const Signup = () => {
   const navigate = useNavigate();
   const { signup, login } = useAuth();
@@ -38,7 +37,19 @@ const Signup = () => {
   const [otpDialogOpen, setOtpDialogOpen] = useState(false);
   const [emailOtpData, setEmailOtpData] = useState({ userId: '', email: '' });
   const [isEmailVerified, setIsEmailVerified] = useState(false);
-  
+  const [showTerms, setShowTerms] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
+
+   const contentMap = {
+    terms: {
+      title: "Terms and Conditions",
+      content: `Welcome to TejStarter! These Terms and Conditions govern your use of our website and services...`,
+    },
+    privacy: {
+      title: "Privacy Policy",
+      content: `We value your privacy. This Privacy Policy explains how TejStarter collects, uses, and protects your personal data...`,
+    },
+  };
 
   // Education options
   const educationLevels = [
@@ -649,26 +660,74 @@ const Signup = () => {
               </div>
 
               {/* Terms and Conditions */}
-              <div className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  name="agree"
-                  checked={formData.agree}
-                  onChange={handleInputChange}
-                  required
-                  className="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                />
-                <label className="text-sm text-gray-700">
-                  I agree to the{' '}
-                  <a href="/terms" className="text-blue-600 hover:underline">
-                    Terms of Service
-                  </a>{' '}
-                  and{' '}
-                  <a href="/privacy" className="text-blue-600 hover:underline">
-                    Privacy Policy
-                  </a>
-                </label>
-              </div>
+      <div className="flex items-start gap-3">
+        <input
+          type="checkbox"
+          name="agree"
+          checked={formData.agree}
+          onChange={handleInputChange}
+          required
+          className="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+        />
+        <label className="text-sm text-gray-700">
+          I agree to the{' '}
+          <button
+            type="button"
+            onClick={() => setShowTerms(true)}
+            className="text-blue-600 hover:underline"
+          >
+            Terms of Service
+          </button>{' '}
+          and{' '}
+          <button
+            type="button"
+            onClick={() => setShowPrivacy(true)}
+            className="text-blue-600 hover:underline"
+          >
+            Privacy Policy
+          </button>
+        </label>
+      </div>
+
+      {/* Terms Modal */}
+          <Dialog open={showTerms} onClose={() => setShowTerms(false)} className="relative z-50">
+            <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
+            <div className="fixed inset-0 flex items-center justify-center p-4">
+              <Dialog.Panel className="w-full max-w-lg rounded bg-white p-6 shadow-lg">
+                <Dialog.Title className="text-lg font-bold">Terms of Service</Dialog.Title>
+                <Dialog.Description className="mt-2 text-sm text-gray-600">
+                  {/* Replace with real terms */}
+                  These are the terms of service. You must agree to proceed with registration.
+                </Dialog.Description>
+                <button
+                  onClick={() => setShowTerms(false)}
+                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+                >
+                  Close
+                </button>
+              </Dialog.Panel>
+            </div>
+          </Dialog>
+
+          {/* Privacy Modal */}
+          <Dialog open={showPrivacy} onClose={() => setShowPrivacy(false)} className="relative z-50">
+            <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
+            <div className="fixed inset-0 flex items-center justify-center p-4">
+              <Dialog.Panel className="w-full max-w-lg rounded bg-white p-6 shadow-lg">
+                <Dialog.Title className="text-lg font-bold">Privacy Policy</Dialog.Title>
+                <Dialog.Description className="mt-2 text-sm text-gray-600">
+                  {/* Replace with real policy */}
+                  This is our privacy policy. Your data is safe and won’t be shared.
+                </Dialog.Description>
+                <button
+                  onClick={() => setShowPrivacy(false)}
+                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+                >
+                  Close
+                </button>
+              </Dialog.Panel>
+            </div>
+          </Dialog>
 
               {/* Submit Button */}
               <button
