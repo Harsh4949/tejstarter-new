@@ -37,7 +37,7 @@ const Signup = () => {
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [otpDialogOpen, setOtpDialogOpen] = useState(false);
   const [emailOtpData, setEmailOtpData] = useState({ userId: '', email: '' });
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(true);
   const [showTerms, setShowTerms] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
 
@@ -233,7 +233,7 @@ If you have any questions or concerns regarding this Privacy Policy, you can con
     setIsLoading(true);
 
     try {
-      const response = await authService.sendEmailOTP(formData.email);
+      const response = await authService.sendEmailOTP(formData.email, formData.password);
       setEmailOtpData(response); // contains userId, secret, phrase
       setOtpDialogOpen(true);    // show the OTP dialog
     } catch (err) {
@@ -417,14 +417,14 @@ If you have any questions or concerns regarding this Privacy Policy, you can con
                   </div>
 
                   {/* Send OTP Button */}
-                  <button
+                  {/* <button
                     type="button"
                     onClick={handleSendOtp}
                     disabled={!formData.email || isEmailVerified}
                     className="mt-3 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50"
                   >
                     {isLoading ? "Sending OTP..." : "Send OTP"}
-                  </button>
+                  </button> */}
 
                   {/* OTP Verification Dialog */}
                   {otpDialogOpen && (

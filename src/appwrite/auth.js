@@ -139,6 +139,18 @@ class AuthService {
             throw error;
         }
     }
+
+        async  updateName(name) {
+         return account.updateName(name);
+        }
+
+        async  updatePhone(phone) {
+            return account.updatePhone(phone);
+        }
+
+        async  updatePassword(password, oldPassword) {
+            return account.updatePassword(password, oldPassword);
+        }
 }
 
 const authService = new AuthService();
