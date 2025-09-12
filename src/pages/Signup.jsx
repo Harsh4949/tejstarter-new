@@ -9,7 +9,7 @@ import { Dialog } from '@headlessui/react'
 import ReactMarkdown from 'react-markdown'
 const Signup = () => {
   const navigate = useNavigate();
-  // const { signup, login } = useAuth();
+  const { signup, login } = useAuth();
   
   const [formData, setFormData] = useState({
     name: '',

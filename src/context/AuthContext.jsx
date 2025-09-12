@@ -60,13 +60,7 @@ export const AuthProvider = ({ children }) => {
             }
 
             // Create user account
-            const userData = await authService.createAccount({
-                email: formData.email,
-                password: formData.password,
-                name: formData.name,
-                phone: formData.phone
-            });
-
+        
             if (userData) {
                 const currentUser = await authService.getCurrentUser();
                 
