@@ -332,15 +332,15 @@ const Footer = () => {
               <div className="space-y-4 text-sm text-gray-600">
                 <div className="flex items-start gap-3 group">
                   <MapPin className="w-5 h-5 mt-1 text-blue-600" />
-                  <span className="group-hover:text-blue-700 transition-colors">Innovation Hub, Pune, Maharashtra, India</span>
+                  <span className="group-hover:text-blue-700 transition-colors"> Tejvaibhav Group Shiradhon 416419 Maharashtra India</span>
                 </div>
                 <div className="flex items-center gap-3 group">
                   <Mail className="w-5 h-5 text-blue-600" />
-                  <span className="group-hover:text-blue-700 transition-colors">info@tejstarter.in</span>
+                  <span className="group-hover:text-blue-700 transition-colors"><a href="mailto:Tejstarter@gmail.com">Tejstarter@gmail.com</a></span>
                 </div>
                 <div className="flex items-center gap-3 group">
                   <Phone className="w-5 h-5 text-blue-600" />
-                  <span className="group-hover:text-blue-700 transition-colors">+91 9876 543 210</span>
+                  <span className="group-hover:text-blue-700 transition-colors"><a href="tel:+918600450851">+91 8600 450 851</a></span>
                 </div>
               </div>
             </div>
