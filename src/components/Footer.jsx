@@ -332,7 +332,12 @@ const Footer = () => {
               <div className="space-y-4 text-sm text-gray-600">
                 <div className="flex items-start gap-3 group">
                   <MapPin className="w-5 h-5 mt-1 text-blue-600" />
-                  <span className="group-hover:text-blue-700 transition-colors"> Tejvaibhav Group Shiradhon 416419 Maharashtra India</span>
+                  <span className="group-hover:text-blue-700 transition-colors"> <a
+                          href="https://www.google.com/maps/search/?api=1&query=Tejvaibhav+Group+Shiradhon+416419+Maharashtra+India"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group-hover:text-blue-700 transition-colors"
+                        >Tejvaibhav Group Shiradhon 416419 Maharashtra India</a></span>
                 </div>
                 <div className="flex items-center gap-3 group">
                   <Mail className="w-5 h-5 text-blue-600" />
